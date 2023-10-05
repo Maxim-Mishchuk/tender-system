@@ -8,17 +8,16 @@ import java.util.List;
 @Repository
 
 public interface TenderRepositoryInterface {
-    public List<Tender> getActiveTenders();
+    List<Tender> getActiveTenders();
 
-    public List<Tender> getTendersByKeyWords(String keywords);
+    List<Tender> getTendersByKeyWords(String keywords);
 
-    public List<Tender> getAllTenders();
+    List<Tender> getAllTenders();
 
-    public void deleteTender(Tender tender);
+    void deleteTender(Tender tender);
 
-    public void addTender(Tender tender);
+    void addTender(Tender tender);
 
-    public Tender getTender(int id);
-
+    Tender getTender(int id);
 
 }

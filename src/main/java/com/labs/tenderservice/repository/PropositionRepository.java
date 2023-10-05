@@ -16,11 +16,13 @@ public class PropositionRepository implements PropositionRepositoryInterface {
         return listOfProposition;
     }
 
+    //getListOfProposition()??
     @Override
     public List<Proposition> getAllPropositionOfThisTender(int id) {
         return getListOfProposition().stream().filter(proposition -> proposition.getTenderId()==id).toList();
     }
 
+    //getListOfProposition()??
     @Override
     public void addProposition(Proposition proposition) {
         getListOfProposition().add(proposition);
