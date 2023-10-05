@@ -10,13 +10,15 @@ import java.util.List;
 public interface TenderRepositoryInterface {
     public List<Tender> getActiveTenders();
 
-    public List<Tender> getTenderByKeyWords(String keywords);
+    public List<Tender> getTendersByKeyWords(String keywords);
 
     public List<Tender> getAllTenders();
 
-    public void deleteTender(int id);
+    public void deleteTender(Tender tender);
 
     public void addTender(Tender tender);
+
+    public Tender getTender(int id);
 
 
 }

@@ -4,9 +4,13 @@ import com.labs.tenderservice.repository.PropositionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PropositionService {
     private final PropositionRepository propositionRepository;
+
+
 
 
     @Autowired
@@ -19,5 +23,14 @@ public class PropositionService {
         return propositionRepository;
     }
 
+    public void createProposition(int id, String description, int tenderId, Double price, String name, Proposition.Status status, Proposition.Currency currency) {
+        getPropositionRepository().addProposition(
+                new Proposition(id, description, tenderId, price, name, status, currency)
+        );
+    }
+
+    public List<Proposition> getAllProposition(int id){
+        return getPropositionRepository().getListOfProposition().stream().filter(proposition -> proposition.getTenderId()==id).toList();
+    }
 
 }

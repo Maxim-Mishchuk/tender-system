@@ -9,15 +9,20 @@ import java.util.List;
 
 @Repository
 public class PropositionRepository implements PropositionRepositoryInterface {
-    private final List<Proposition> listOfUsers= new ArrayList<>();
+    private final List<Proposition> listOfProposition= new ArrayList<>();
+
+
+    public List<Proposition> getListOfProposition() {
+        return listOfProposition;
+    }
 
     @Override
     public List<Proposition> getAllPropositionOfThisTender(int id) {
-        return null;
+        return getListOfProposition().stream().filter(proposition -> proposition.getTenderId()==id).toList();
     }
 
     @Override
     public void addProposition(Proposition proposition) {
-
+        getListOfProposition().add(proposition);
     }
 }
