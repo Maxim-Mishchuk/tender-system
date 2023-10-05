@@ -22,12 +22,24 @@ public class TenderRepository implements TenderRepositoryInterface {
 
     @Override
     public List<Tender> getTendersByKeyWords(String keywords) {
+        String[] keywordArray = keywords.toLowerCase().split("\\s+");
+
         return getAllTenders().
                 stream().
-                filter(tender -> tender.getName().toLowerCase().contains(keywords.toLowerCase()) || tender.getDescription().toLowerCase().contains(keywords.toLowerCase()))
+                filter(tender -> containsAnyKeyword(tender, keywordArray))
                 .collect(Collectors.toList());
     }
+    private boolean containsAnyKeyword(Tender tender, String[] keywords) {
+        String name = tender.getName().toLowerCase();
+        String description = tender.getDescription().toLowerCase();
 
+        for (String keyword : keywords) {
+            if (name.contains(keyword) || description.contains(keyword)) {
+                return true;
+            }
+        }
+        return false;
+    }
     @Override
     public List<Tender> getAllTenders() {
         return listOfTenders;
