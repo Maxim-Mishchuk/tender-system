@@ -13,7 +13,7 @@ public class RAMTenderRepository implements TenderRepository {
 
     private final List<Tender> listOfTenders = new ArrayList<>();
 
-    //getAllTenders()??
+
     @Override
     public List<Tender> getActiveTenders() {
         return listOfTenders.stream().filter(tender -> tender.getStatus()== Tender.Status.ACTIVE).toList();
@@ -45,10 +45,10 @@ public class RAMTenderRepository implements TenderRepository {
         return listOfTenders;
     }
 
-
+    //delete with id
     @Override
-    public void deleteTender(Tender tender) {
-        listOfTenders.remove(tender);
+    public void deleteTender(long id) {
+        listOfTenders.remove(getTender(id));
 
     }
 

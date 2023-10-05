@@ -13,8 +13,8 @@ public interface TenderRepository {
     List<Tender> getTendersByKeyWords(String keywords);
 
     List<Tender> getAllTenders();
-
-    void deleteTender(Tender tender);
+    //delete with id
+    void deleteTender(long id);
 
     void addTender(long userId, String description, String name);
 
