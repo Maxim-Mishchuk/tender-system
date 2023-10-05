@@ -16,13 +16,13 @@ public class PropositionController {
     PropositionService propositionService;
 
     @PostMapping("/proposition")
-    String createProposition(String name, String description, int tenderId, double price, String currency) {
+    String createProposition(String name, String description, long tenderId, double price, String currency) {
         propositionService.createProposition(name, description, tenderId, price, currency);
         return "proposition/proposition";
     }
 
     @GetMapping("/proposition")
-    String getAllPropositionsByTender(int tenderId, Model model) {
+    String getAllPropositionsByTender(long tenderId, Model model) {
         List<Proposition> list = propositionService.getAllPropositionByTenderID(tenderId);
         model.addAttribute("propositionList", list);
         return "proposition/proposition";
