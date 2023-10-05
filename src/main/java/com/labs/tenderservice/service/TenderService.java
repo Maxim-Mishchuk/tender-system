@@ -3,10 +3,8 @@ package com.labs.tenderservice.service;
 import com.labs.tenderservice.repository.TenderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.labs.tenderservice.service.Tender;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class TenderService {
@@ -16,47 +14,46 @@ public class TenderService {
         this.tenderRepository = tenderRepository;
     }
 
-    public TenderRepository getTenderRepository() {
-        return tenderRepository;
+    public List<Tender> getAllTenders() {
+        return tenderRepository.getAllTenders();
     }
 
-    //getTenderRepository()??
+    public Tender getTenderById(long id){
+        return tenderRepository.getTender(id);
+    }
+
+
     public List<Tender> getAllActiveTenders(){
-        return getTenderRepository().getActiveTenders();
+        return tenderRepository.getActiveTenders();
     }
 
-    //getTenderRepository()??
+
     public List<Tender> findTenderByKeywords(String keywords){
 
-        return getTenderRepository().getTendersByKeyWords(keywords);
+        return tenderRepository.getTendersByKeyWords(keywords);
     }
 
-    //getTenderRepository()??
-    //tenderRepository.add()?
-    //Tender id should be generated in repository
-    public void createTender(int id, int userId, String description, String name, Tender.Status status){
-        getTenderRepository().getAllTenders().add(
-                new Tender(id,  userId,  description,  name, status)
-        );
+
+
+
+    public void createTender(String name, String description, long userId) {
+
+        tenderRepository.addTender(userId, description, name);
     }
 
-    public void createTender(String name, String description, int userId, String status) {
-        //Logic
-    }
 
-    //getTenderRepository()??
     public void deleteTender(Tender tender){
-        getTenderRepository().deleteTender(tender);
+        tenderRepository.deleteTender(tender);
     }
 
-    //getTenderRepository()??
-    public Tender getTenderAsOwner(int id){
-        return getTenderRepository().getTender(id);
+
+    public Tender getTenderAsOwner(long id){
+        return tenderRepository.getTender(id);
     }
 
-    //getTenderRepository()??
-    public void changeStatusOfTender(int id, Tender.Status status){
-        getTenderRepository().getTender(id).setStatus(status);
+
+    public void changeStatusOfTender(long id, String status){
+        tenderRepository.getTender(id).setStatus(Tender.Status.valueOf(status));
     }
 
 

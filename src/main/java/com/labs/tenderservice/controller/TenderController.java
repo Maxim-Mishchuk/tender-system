@@ -20,27 +20,27 @@ public class TenderController {
 
     @PostMapping("/tender")
     String createTender(String name, String description, int userId, Model model) {
-        tenderService.createTender(name, description, userId, "ACTIVE");
+        tenderService.createTender(name, description, userId);
         return "tender/tender";
     }
 
     @GetMapping("/tender")
     String showAllTenders(Model model) {
-        List<Tender> list = tenderService.getTenderRepository().getAllTenders();
+        List<Tender> list = tenderService.getAllTenders();
         model.addAttribute("tenderList", list);
         return "tender/tender";
     }
 
     @GetMapping("/tender/{tenderId}")
     String findTenderByID(@PathVariable("tenderId") int id, Model model) {
-        Tender tender = tenderService.getTenderRepository().getTender(id);
+        Tender tender = tenderService.getTenderById(id);
         model.addAttribute("tender", tender);
         return "tender/tender";
     }
 
     @PutMapping("/tender/{tenderId}")
     String changeStatusOfTender(@PathVariable("tenderId") int id, String status,Model model) {
-        tenderService.changeStatusOfTender(id, Tender.Status.valueOf(status));
+        tenderService.changeStatusOfTender(id, status);
         return "tender/tender";
     }
 

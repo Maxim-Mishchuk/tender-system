@@ -1,15 +1,15 @@
 package com.labs.tenderservice.service;
 
 public class Proposition {
-    private final int id;
+    private final long id;
     private String description;
-    private final int tenderId;
+    private final long tenderId;
     private Double price;
     private final String name;
     private Status status;
     private Currency currency;
 
-    public Proposition(int id, String description, int tenderId, Double price, String name, Status status, Currency currency) {
+    public Proposition(long id, String description, long tenderId, Double price, String name, Status status, Currency currency) {
         this.id = id;
         this.description = description;
         this.tenderId = tenderId;
@@ -27,7 +27,7 @@ public class Proposition {
         this.currency = currency;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -39,7 +39,7 @@ public class Proposition {
         this.description = description;
     }
 
-    public int getTenderId() {
+    public long getTenderId() {
         return tenderId;
     }
 

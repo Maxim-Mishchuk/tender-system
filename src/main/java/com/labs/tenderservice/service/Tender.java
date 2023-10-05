@@ -1,13 +1,13 @@
 package com.labs.tenderservice.service;
 
 public class Tender {
-    private final int id;
-    private final int userId;
+    private final long id;
+    private final long userId;
     private String description;
     private final String name;
     private Status status;
 
-    public Tender(int id, int userId, String description, String name, Status status) {
+    public Tender(long id, long userId, String description, String name, Status status) {
         this.id = id;
         this.userId = userId;
         this.description = description;
@@ -15,11 +15,11 @@ public class Tender {
         this.status = status;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 

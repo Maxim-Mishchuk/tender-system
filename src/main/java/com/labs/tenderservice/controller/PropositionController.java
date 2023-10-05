@@ -23,7 +23,7 @@ public class PropositionController {
 
     @GetMapping("/proposition")
     String getAllPropositionsByTender(int tenderId, Model model) {
-        List<Proposition> list = propositionService.getAllProposition(tenderId);
+        List<Proposition> list = propositionService.getAllPropositionByTenderID(tenderId);
         model.addAttribute("propositionList", list);
         return "proposition/proposition";
     }

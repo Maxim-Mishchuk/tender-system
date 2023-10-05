@@ -13,7 +13,7 @@ public class UserService {
     }
 
     public void createUser(String username) {
-        //Logic
+        userRepository.createUser(username);
     }
 
     public UserRepository getUserRepository() {
