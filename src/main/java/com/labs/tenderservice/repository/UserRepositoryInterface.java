@@ -8,8 +8,8 @@ import java.util.List;
 @Repository
 
 public interface UserRepositoryInterface {
-    public User getUserById(int id);
+    User getUserById(int id);
 
-    public List<User> getAllUsers();
+    List<User> getAllUsers();
 
 }

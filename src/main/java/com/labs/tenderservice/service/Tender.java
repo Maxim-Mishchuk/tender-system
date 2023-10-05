@@ -3,10 +3,7 @@ package com.labs.tenderservice.service;
 public class Tender {
     private final int id;
     private final int userId;
-
     private String description;
-
-
     private final String name;
     private Status status;
 
@@ -49,6 +46,4 @@ public class Tender {
     public enum Status {
         ACTIVE, APPROVED, DISMISSED
     }
-
-
 }

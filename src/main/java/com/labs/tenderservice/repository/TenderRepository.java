@@ -13,13 +13,13 @@ public class TenderRepository implements TenderRepositoryInterface {
 
     private final List<Tender> listOfTenders = new ArrayList<>();
 
-
-
+    //getAllTenders()??
     @Override
     public List<Tender> getActiveTenders() {
         return getAllTenders().stream().filter(tender -> tender.getStatus()== Tender.Status.ACTIVE).toList();
     }
 
+    //getAllTenders()??
     @Override
     public List<Tender> getTendersByKeyWords(String keywords) {
         return getAllTenders().
@@ -33,17 +33,21 @@ public class TenderRepository implements TenderRepositoryInterface {
         return listOfTenders;
     }
 
+    //getAllTenders()??
     @Override
     public void deleteTender(Tender tender) {
         getAllTenders().remove(tender);
 
     }
 
+    //getAllTenders()??
     @Override
     public void addTender(Tender tender) {
         getAllTenders().add(tender);
     }
 
+    //getAllTenders()??
+    //!!! List.get(int index) - index != id !!!
     @Override
     public Tender getTender(int id) {
         return getAllTenders().get(id);

@@ -2,12 +2,11 @@ package com.labs.tenderservice.service;
 
 public class Proposition {
     private final int id;
-    private  String description;
+    private String description;
     private final int tenderId;
     private Double price;
     private final String name;
     private Status status;
-
     private Currency currency;
 
     public Proposition(int id, String description, int tenderId, Double price, String name, Status status, Currency currency) {
@@ -65,7 +64,7 @@ public class Proposition {
     }
 
     public enum Currency{
-        USD, EUR, UAN;
+        USD, EUR, UAH
     }
 
     public enum Status {

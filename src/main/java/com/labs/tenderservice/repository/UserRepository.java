@@ -10,16 +10,19 @@ import java.util.List;
 public class UserRepository implements UserRepositoryInterface {
     private final List<User> listOfUsers= new ArrayList<>();
 
+    //getListOfUsers() == getAllUsers()
     public List<User> getListOfUsers() {
         return listOfUsers;
     }
 
+    //getListOfUsers()??
     @Override
     public User getUserById(int id) {
 
         return getListOfUsers().get(id);
     }
 
+    //getListOfUsers()??
     @Override
     public List<User> getAllUsers() {
         return getListOfUsers();
