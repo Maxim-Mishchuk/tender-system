@@ -45,7 +45,7 @@ public class RAMTenderRepository implements TenderRepository {
         return listOfTenders;
     }
 
-    //delete with id
+
     @Override
     public void deleteTender(long id) {
         listOfTenders.remove(getTender(id));

@@ -17,7 +17,7 @@ public class RAMUserRepository implements UserRepository {
         return listOfUsers.stream().filter(user -> user.getId()==id).findFirst().orElse(null);
     }
 
-    //getListOfUsers()??
+
     @Override
     public List<User> getAllUsers() {
         return listOfUsers;
