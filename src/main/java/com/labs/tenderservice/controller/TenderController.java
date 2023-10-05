@@ -19,7 +19,7 @@ public class TenderController {
     TenderService tenderService;
 
     @PostMapping("/tender")
-    String createTender(String name, String description, int userId, Model model) {
+    String createTender(String name, String description, long userId, Model model) {
         tenderService.createTender(name, description, userId);
         return "tender/tender";
     }
@@ -32,14 +32,14 @@ public class TenderController {
     }
 
     @GetMapping("/tender/{tenderId}")
-    String findTenderByID(@PathVariable("tenderId") int id, Model model) {
+    String findTenderByID(@PathVariable("tenderId") long id, Model model) {
         Tender tender = tenderService.getTenderById(id);
         model.addAttribute("tender", tender);
         return "tender/tender";
     }
 
     @PutMapping("/tender/{tenderId}")
-    String changeStatusOfTender(@PathVariable("tenderId") int id, String status,Model model) {
+    String changeStatusOfTender(@PathVariable("tenderId") long id, String status,Model model) {
         tenderService.changeStatusOfTender(id, status);
         return "tender/tender";
     }
