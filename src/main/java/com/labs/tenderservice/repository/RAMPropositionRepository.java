@@ -27,4 +27,5 @@ public class RAMPropositionRepository implements PropositionRepository {
     public void addProposition(String name, String description, long tenderId, double price, Proposition.Currency currency) {
         listOfProposition.add(new Proposition(System.nanoTime(),description, tenderId, price, name, Proposition.Status.ACTIVE, currency));
     }
+
 }
