@@ -16,9 +16,10 @@ public class PropositionController {
     PropositionService propositionService;
 
     @PostMapping("/proposition")
-    String createProposition(String name, String description, long tenderId, double price, String currency) {
+    String createProposition(String name, String description, long tenderId, double price, String currency, Model model) {
         propositionService.createProposition(name, description, tenderId, price, currency);
-        return "proposition/proposition";
+        model.addAttribute("message", "proposition of tenderId: " + tenderId + ", with name: " + name + ", was successfully added");
+        return "result";
     }
 
     @GetMapping("/proposition")

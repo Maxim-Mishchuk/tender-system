@@ -44,6 +44,6 @@ public class Tender {
     }
 
     public enum Status {
-        ACTIVE, APPROVED, DISMISSED
+        ACTIVE, FROZEN, CLOSED
     }
 }
