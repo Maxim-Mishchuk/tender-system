@@ -12,6 +12,10 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    public void createUser(String username) {
+        //Logic
+    }
+
     public UserRepository getUserRepository() {
         return userRepository;
     }

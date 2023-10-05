@@ -33,10 +33,15 @@ public class TenderService {
 
     //getTenderRepository()??
     //tenderRepository.add()?
+    //Tender id should be generated in repository
     public void createTender(int id, int userId, String description, String name, Tender.Status status){
         getTenderRepository().getAllTenders().add(
                 new Tender(id,  userId,  description,  name, status)
         );
+    }
+
+    public void createTender(String name, String description, int userId, String status) {
+        //Logic
     }
 
     //getTenderRepository()??

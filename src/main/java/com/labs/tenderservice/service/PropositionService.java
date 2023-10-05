@@ -27,6 +27,10 @@ public class PropositionService {
         );
     }
 
+    public void createProposition(String name, String description, int tenderId, double price, String currency) {
+        //Logic
+    }
+
     //getPropositionRepository()??
     //should rename: getAllPropositionsByTenderID()
     public List<Proposition> getAllProposition(int id){
