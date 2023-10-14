@@ -1,6 +1,6 @@
 package com.labs.tenderservice.controller;
 
-import com.labs.tenderservice.service.Proposition;
+import com.labs.tenderservice.entity.proposition.Proposition;
 import com.labs.tenderservice.service.PropositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,7 +24,7 @@ public class PropositionController {
 
     @GetMapping("/proposition")
     String getAllPropositionsByTender(long tenderId, Model model) {
-        List<Proposition> list = propositionService.getAllPropositionByTenderID(tenderId);
+        List<Proposition> list = propositionService.getPropositionsByTenderId(tenderId);
         model.addAttribute("propositionList", list);
         return "proposition/proposition";
     }

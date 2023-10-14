@@ -1,25 +1,11 @@
 package com.labs.tenderservice.repository;
 
-import com.labs.tenderservice.service.Tender;
-import org.springframework.stereotype.Repository;
-
+import com.labs.tenderservice.entity.ID;
+import com.labs.tenderservice.entity.tender.Tender;
 import java.util.List;
 
-@Repository
-
-public interface TenderRepository {
+public interface TenderRepository extends IRepository<Tender> {
     List<Tender> getActiveTenders();
-
-    List<Tender> getTendersByKeyWords(String keywords);
-
-    List<Tender> getAllTenders();
-    //delete with id
-    void deleteTender(long id);
-
-    void addTender(long userId, String description, String name);
-
-    Tender getTender(long id);
-
-
-
+    List<Tender> getTendersByKeywords(String keywords);
+    Tender updateTenderStatus(ID id, Tender.Status status);
 }

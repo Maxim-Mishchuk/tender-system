@@ -1,7 +1,9 @@
 package com.labs.tenderservice.service;
 
 import com.labs.tenderservice.repository.PropositionRepository;
-import com.labs.tenderservice.repository.RAMPropositionRepository;
+import com.labs.tenderservice.repository.impl.ram.RAMPropositionRepository;
+import com.labs.tenderservice.entity.ID;
+import com.labs.tenderservice.entity.proposition.Proposition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +18,20 @@ public class PropositionService {
         this.propositionRepository = propositionRepository;
     }
 
-
-
-
-    public void createProposition(String name, String description, long tenderId, double price, String currency) {
-        propositionRepository.addProposition(name, description, tenderId, price, Proposition.Currency.valueOf(currency));
+    public Proposition createProposition(String name, String description, long tenderId, double price, String currency) {
+        Proposition newProposition = new Proposition(
+                ID.generateID(),
+                new ID(tenderId),
+                name,
+                description,
+                price,
+                Proposition.Currency.valueOf(currency),
+                Proposition.Status.ACTIVE
+        );
+        return propositionRepository.add(newProposition);
     }
 
-
-    public List<Proposition> getAllPropositionByTenderID(long id){
-        return propositionRepository.getListOfProposition().stream().filter(proposition -> proposition.getTenderId()==id).toList();
+    public List<Proposition> getPropositionsByTenderId(long tenderId) {
+        return propositionRepository.getPropositionsByTenderId(new ID(tenderId));
     }
-
 }

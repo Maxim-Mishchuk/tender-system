@@ -1,6 +1,8 @@
 package com.labs.tenderservice.service;
 
 import com.labs.tenderservice.repository.UserRepository;
+import com.labs.tenderservice.entity.ID;
+import com.labs.tenderservice.entity.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +15,7 @@ public class UserService {
     }
 
     public void createUser(String username) {
-        userRepository.createUser(username);
-    }
-
-    public UserRepository getUserRepository() {
-        return userRepository;
+        User newUser = new User(ID.generateID(), username);
+        userRepository.add(newUser);
     }
 }

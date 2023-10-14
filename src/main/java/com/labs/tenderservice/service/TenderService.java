@@ -1,59 +1,65 @@
 package com.labs.tenderservice.service;
 
 import com.labs.tenderservice.repository.TenderRepository;
+import com.labs.tenderservice.repository.TenderURLRepository;
+import com.labs.tenderservice.entity.ID;
+import com.labs.tenderservice.entity.tender.Tender;
+import com.labs.tenderservice.entity.tender.TenderURLConnector;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 public class TenderService {
     private final TenderRepository tenderRepository;
+    private final TenderURLRepository tenderURLRepository;
 
     @Autowired
-    public TenderService(TenderRepository tenderRepository) {
+    public TenderService(TenderRepository tenderRepository, TenderURLRepository tenderURLRepository) {
         this.tenderRepository = tenderRepository;
+        this.tenderURLRepository = tenderURLRepository;
+    }
+
+    public Tender createTender(String name, String description, long userId) {
+        Tender newTender = new Tender(
+                ID.generateID(),
+                new ID(userId),
+                name,
+                description,
+                Tender.Status.ACTIVE
+        );
+
+        TenderURLConnector newTenderURLConnector = new TenderURLConnector(
+                newTender.getId(),
+                String.valueOf(newTender.getId().id())
+        );
+
+        tenderURLRepository.add(newTenderURLConnector);
+        return tenderRepository.add(newTender);
     }
 
     public List<Tender> getAllTenders() {
-        return tenderRepository.getAllTenders();
+        return tenderRepository.getAll();
     }
 
-    public Tender getTenderById(long id) {
-        return tenderRepository.getTender(id);
-    }
-
-
-    public List<Tender> getAllActiveTenders() {
+    public List<Tender> getActiveTenders() {
         return tenderRepository.getActiveTenders();
     }
 
-
-    public List<Tender> findTenderByKeywords(String keywords) {
-
-        return tenderRepository.getTendersByKeyWords(keywords);
+    public List<Tender> getTendersByKeywords(String keywords) {
+        return tenderRepository.getTendersByKeywords(keywords);
     }
 
-
-    public void createTender(String name, String description, long userId) {
-
-        tenderRepository.addTender(userId, description, name);
+    public Tender getTenderById(long id) {
+        return tenderRepository.getById(new ID(id));
     }
 
-    //delete with id
-    public void deleteTender(long id) {
-        tenderRepository.deleteTender(id);
+    public Tender getTenderByURL(String url) {
+        ID tenderID = tenderURLRepository.getTenderIdByURL(url);
+        return tenderRepository.getById(tenderID);
     }
 
-
-    public Tender getTenderAsOwner(long id) {
-        return tenderRepository.getTender(id);
+    public Tender changeTenderStatus(long id, String status) {
+        return tenderRepository.updateTenderStatus(new ID(id), Tender.Status.valueOf(status));
     }
-
-
-    public void changeStatusOfTender(long id, String status) {
-        tenderRepository.getTender(id).setStatus(Tender.Status.valueOf(status));
-    }
-
-
 }

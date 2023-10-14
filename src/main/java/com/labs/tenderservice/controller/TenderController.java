@@ -1,8 +1,8 @@
 package com.labs.tenderservice.controller;
 
-import com.labs.tenderservice.service.Proposition;
+import com.labs.tenderservice.entity.proposition.Proposition;
 import com.labs.tenderservice.service.PropositionService;
-import com.labs.tenderservice.service.Tender;
+import com.labs.tenderservice.entity.tender.Tender;
 import com.labs.tenderservice.service.TenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,10 +36,10 @@ public class TenderController {
         return "tender/tender";
     }
 
-    @GetMapping("/tender/{tenderId}")
-    String findTenderByID(@PathVariable("tenderId") long id, Model model) {
-        Tender tender = tenderService.getTenderById(id);
-        List<Proposition> propositionList = propositionService.getAllPropositionByTenderID(id);
+    @GetMapping("/tender/{tenderURL}")
+    String findTenderByURL(@PathVariable("tenderURL") String tenderUrl, Model model) {
+        Tender tender = tenderService.getTenderByURL(tenderUrl);
+        List<Proposition> propositionList = propositionService.getPropositionsByTenderId(tender.getId().id());
         model.addAttribute("tender", tender);
         model.addAttribute("propositionList", propositionList);
         return "tender/tender";
@@ -47,21 +47,21 @@ public class TenderController {
 
     @PutMapping("/tender/{tenderId}")
     String changeStatusOfTender(@PathVariable("tenderId") long id, String status, Model model) {
-        tenderService.changeStatusOfTender(id, status);
+        tenderService.changeTenderStatus(id, status);
         model.addAttribute("message", "tender with id: " + id + ", was successfully changed");
         return "result";
     }
 
     @GetMapping("/tender/active")
     String showAllActiveTenders(Model model) {
-        List<Tender> list = tenderService.getAllActiveTenders();
+        List<Tender> list = tenderService.getActiveTenders();
         model.addAttribute("tenderList", list);
         return "tender/tender";
     }
 
     @GetMapping("/tender/search")
     String showTendersByKeywords(String keywords, Model model) {
-        List<Tender> list = tenderService.findTenderByKeywords(keywords);
+        List<Tender> list = tenderService.getTendersByKeywords(keywords);
         model.addAttribute("tenderList", list);
         return "tender/tender";
     }
