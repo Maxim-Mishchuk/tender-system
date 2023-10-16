@@ -29,6 +29,12 @@ public class TenderController {
         return "result";
     }
 
+    @PostMapping("/tender/{tenderId}")
+    String createCustomTenderURL(@PathVariable("tenderId") long tenderId, String newUrl, Model model) {
+        tenderService.createCustomTenderUrl(tenderId, newUrl);
+        model.addAttribute("message", "tender with id: " + tenderId + ", have got the custom url");
+        return "result";
+    }
     @GetMapping("/tender")
     String showAllTenders(Model model) {
         List<Tender> list = tenderService.getAllTenders();

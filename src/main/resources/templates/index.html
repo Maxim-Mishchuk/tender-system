@@ -5,19 +5,43 @@
     <title>Title</title>
 </head>
 <body>
-<table>
-    <tr>
-        <th>ID</th>
-        <th>User ID</th>
-        <th>Name</th>
-        <th>Status</th>
-    </tr>
-    <tr th:each="tender : ${tenderList}">
-        <td th:text="${tender.id}"></td>
-        <td th:text="${tender.userId}"></td>
-        <td th:text="${tender.name}"></td>
-        <td th:text="${tender.status}"></td>
-    </tr>
-</table>
+    <header>
+        <h1>Tender-service</h1>
+    </header>
+    <nav>
+        <ul>
+            <li>
+                <a href="">main</a>
+            </li>
+            <li>
+                <a href="">user</a>
+                <ul>
+                    <li>create new</li>
+                </ul>
+            </li>
+            <li>
+                <a href="">tender</a>
+                <ul>
+                    <li>create new</li>
+                    <li>change status</li>
+                    <li>show active</li>
+                </ul>
+            </li>
+            <li>
+                <a href="">proposition</a>
+                <ul>
+                    <li>create new</li>
+                    <li>edit exist</li>
+                    <li>change status</li>
+                </ul>
+            </li>
+        </ul>
+        <div>
+            You're not authorized
+            <a href="">register</a>
+            <a href="">log in</a>
+            <a href="">sign out</a>
+        </div>
+    </nav>
 </body>
 </html>

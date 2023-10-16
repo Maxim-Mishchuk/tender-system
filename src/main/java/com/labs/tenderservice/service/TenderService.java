@@ -8,6 +8,7 @@ import com.labs.tenderservice.entity.tender.TenderURLConnector;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Objects;
 
 
 public class TenderService {
@@ -36,6 +37,14 @@ public class TenderService {
 
         tenderURLRepository.add(newTenderURLConnector);
         return tenderRepository.add(newTender);
+    }
+
+    public void createCustomTenderUrl(long tenderId, String newUrl) {
+        if (
+                !Objects.isNull(tenderURLRepository.getById(new ID(tenderId)))
+        ) {
+            tenderURLRepository.setNewUrl(new ID(tenderId), newUrl);
+        }
     }
 
     public List<Tender> getAllTenders() {

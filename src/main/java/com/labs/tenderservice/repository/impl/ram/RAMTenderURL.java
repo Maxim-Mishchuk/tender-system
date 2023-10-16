@@ -20,4 +20,11 @@ public class RAMTenderURL extends RAMRepository<TenderURLConnector> implements T
         }
         return idList.get(0);
     }
+
+    @Override
+    public void setNewUrl(ID tenderId, String url) {
+        if (repository.containsKey(tenderId)) {
+            repository.get(tenderId).setURL(url);
+        }
+    }
 }

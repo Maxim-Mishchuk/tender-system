@@ -5,4 +5,5 @@ import com.labs.tenderservice.entity.tender.TenderURLConnector;
 
 public interface TenderURLRepository extends IRepository<TenderURLConnector> {
     ID getTenderIdByURL(String URL);
+    void setNewUrl(ID tenderId, String url);
 }
