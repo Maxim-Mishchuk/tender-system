@@ -22,6 +22,11 @@ public class TenderController {
     @Autowired
     PropositionService propositionService;
 
+    @GetMapping("/createTender")
+    String getForm() {
+        return "tender/createTender";
+    }
+
     @PostMapping("/tender")
     String createTender(String name, String description, long userId, Model model) {
         tenderService.createTender(name, description, userId);
@@ -62,7 +67,7 @@ public class TenderController {
     String showAllActiveTenders(Model model) {
         List<Tender> list = tenderService.getActiveTenders();
         model.addAttribute("tenderList", list);
-        return "tender/tender";
+        return "tender/activeTender";
     }
 
     @GetMapping("/tender/search")

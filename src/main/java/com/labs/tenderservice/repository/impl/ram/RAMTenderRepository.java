@@ -19,6 +19,13 @@ public class RAMTenderRepository extends RAMRepository<Tender> implements Tender
     }
 
     @Override
+    public List<Tender> getUserTenders(ID userId) {
+        return repository.values().stream()
+                .filter(tender -> tender.getUserId().equals(userId))
+                .toList();
+    }
+
+    @Override
     public List<Tender> getTendersByKeywords(String keywords) {
         return repository.values().stream()
                 .filter(tender -> tender.getName().contains(keywords))

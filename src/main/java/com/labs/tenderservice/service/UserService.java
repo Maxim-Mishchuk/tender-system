@@ -6,6 +6,8 @@ import com.labs.tenderservice.entity.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -17,5 +19,9 @@ public class UserService {
     public void createUser(String username) {
         User newUser = new User(ID.generateID(), username);
         userRepository.add(newUser);
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.getAll();
     }
 }

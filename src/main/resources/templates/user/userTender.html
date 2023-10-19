@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>User tenders</h2>
+
+<div th:if="${#lists.isEmpty(tenderList) && tender == null}">
+    <p>
+        This user doesn't have any tender :(
+    </p>
+</div>
+
+<div th:unless="${#lists.isEmpty(tenderList)}">
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Status</th>
+        </tr>
+        <tr th:each="tender : ${tenderList}">
+            <td th:text="${tender.id}"></td>
+            <td th:text="${tender.userId}"></td>
+            <td th:text="${tender.name}"></td>
+            <td th:text="${tender.description}"></td>
+            <td th:text="${tender.status}"></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

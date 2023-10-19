@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface TenderRepository extends IRepository<Tender> {
     List<Tender> getActiveTenders();
+    List<Tender> getUserTenders(ID userId);
     List<Tender> getTendersByKeywords(String keywords);
     Tender updateTenderStatus(ID id, Tender.Status status);
 }

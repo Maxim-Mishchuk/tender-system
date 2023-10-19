@@ -55,6 +55,10 @@ public class TenderService {
         return tenderRepository.getActiveTenders();
     }
 
+    public List<Tender> getUserTenders(long userId) {
+        return tenderRepository.getUserTenders(new ID(userId));
+    }
+
     public List<Tender> getTendersByKeywords(String keywords) {
         return tenderRepository.getTendersByKeywords(keywords);
     }
