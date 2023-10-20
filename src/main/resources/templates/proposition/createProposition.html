@@ -19,7 +19,7 @@
         <select name="tenderId" id="tenderId" required>
             <option th:each="tender : ${tenderList}" th:value="${tender.id.id}" th:text="${tender.name}"></option>
         </select><br/>
-        <input type="text" name="name"placeholder="Name" required/><br/>
+        <input type="text" name="name" placeholder="Name" required/><br/>
         <textarea name="description" cols="30" rows="10" placeholder="Description" required></textarea><br/>
         <input type="text" name="price" placeholder="Price" required>
         <label for="currency">Currency: </label>
