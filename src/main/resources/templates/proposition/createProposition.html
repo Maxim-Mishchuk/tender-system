@@ -16,14 +16,14 @@
 <div th:unless="${#lists.isEmpty(tenderList)}">
     <form action="/proposition" method="post">
         <label for="tenderId">Tender: </label>
-        <select name="tenderId" id="tenderId">
+        <select name="tenderId" id="tenderId" required>
             <option th:each="tender : ${tenderList}" th:value="${tender.id.id}" th:text="${tender.name}"></option>
         </select><br/>
-        <input type="text" name="name"placeholder="Name"/><br/>
-        <textarea name="description" cols="30" rows="10" placeholder="Description"></textarea><br/>
-        <input type="text" name="price" placeholder="Price">
+        <input type="text" name="name"placeholder="Name" required/><br/>
+        <textarea name="description" cols="30" rows="10" placeholder="Description" required></textarea><br/>
+        <input type="text" name="price" placeholder="Price" required>
         <label for="currency">Currency: </label>
-        <select name="currency" id="currency">
+        <select name="currency" id="currency" required>
             <option th:each="currency : ${currencyList}" th:value="${currency}" th:text="${currency}"></option>
         </select><br/>
         <input type="submit" value="Create">
