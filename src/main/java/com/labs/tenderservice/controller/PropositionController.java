@@ -1,6 +1,6 @@
 package com.labs.tenderservice.controller;
 
-import com.labs.tenderservice.service.Proposition;
+import com.labs.tenderservice.entity.proposition.Proposition;
 import com.labs.tenderservice.service.PropositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,9 +22,16 @@ public class PropositionController {
         return "result";
     }
 
+    @PostMapping("/proposition/changeStatus")
+    String changePropositionStatus(long id, String status, Model model) {
+        propositionService.changePropositionStatus(id, status);
+        model.addAttribute("message", "proposition with id:" + id + ", was successfully changed");
+        return "result";
+    }
+
     @GetMapping("/proposition")
     String getAllPropositionsByTender(long tenderId, Model model) {
-        List<Proposition> list = propositionService.getAllPropositionByTenderID(tenderId);
+        List<Proposition> list = propositionService.getPropositionsByTenderId(tenderId);
         model.addAttribute("propositionList", list);
         return "proposition/proposition";
     }

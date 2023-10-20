@@ -1,8 +1,12 @@
 package com.labs.tenderservice.service;
 
 import com.labs.tenderservice.repository.UserRepository;
+import com.labs.tenderservice.entity.ID;
+import com.labs.tenderservice.entity.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -13,10 +17,11 @@ public class UserService {
     }
 
     public void createUser(String username) {
-        userRepository.createUser(username);
+        User newUser = new User(ID.generateID(), username);
+        userRepository.add(newUser);
     }
 
-    public UserRepository getUserRepository() {
-        return userRepository;
+    public List<User> getAllUsers() {
+        return userRepository.getAll();
     }
 }
