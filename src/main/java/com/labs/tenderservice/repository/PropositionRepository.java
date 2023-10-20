@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface PropositionRepository extends IRepository<Proposition> {
     List<Proposition> getPropositionsByTenderId(ID tenderId);
+
+    Proposition updatePropositionStatus(ID id, Proposition.Status status);
 }

@@ -22,6 +22,13 @@ public class PropositionController {
         return "result";
     }
 
+    @PostMapping("/proposition/changeStatus")
+    String changePropositionStatus(long id, String status, Model model) {
+        propositionService.changePropositionStatus(id, status);
+        model.addAttribute("message", "proposition with id:" + id + ", was successfully changed");
+        return "result";
+    }
+
     @GetMapping("/proposition")
     String getAllPropositionsByTender(long tenderId, Model model) {
         List<Proposition> list = propositionService.getPropositionsByTenderId(tenderId);

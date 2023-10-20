@@ -72,6 +72,10 @@ public class TenderService {
         return tenderRepository.getById(tenderID);
     }
 
+    public List<TenderURLConnector> getAllURLConnectors() {
+        return tenderURLRepository.getAll();
+    }
+
     public Tender changeTenderStatus(long id, String status) {
         return tenderRepository.updateTenderStatus(new ID(id), Tender.Status.valueOf(status));
     }

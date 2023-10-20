@@ -4,23 +4,23 @@ import com.labs.tenderservice.entity.ID;
 import com.labs.tenderservice.entity.IDEntity;
 
 public class TenderURLConnector extends IDEntity {
-    private String URL;
+    private String url;
 
-    public TenderURLConnector(ID tenderID, String URL) {
+    public TenderURLConnector(ID tenderID, String url) {
         super(tenderID);
-        this.URL = URL;
+        this.url = url;
     }
 
     public ID getTenderID() {
         return getId();
     }
 
-    public String getURL() {
-        return URL;
+    public String getUrl() {
+        return url;
     }
 
-    public void setURL(String URL) {
-        this.URL = URL;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
 }

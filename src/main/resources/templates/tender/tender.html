@@ -19,13 +19,15 @@
         <th>Name</th>
         <th>Description</th>
         <th>Status</th>
+        <th>Action</th>
       </tr>
-      <tr th:each="tender : ${tenderList}">
+      <tr th:each="tender, itStat : ${tenderList}">
         <td th:text="${tender.id}"></td>
         <td th:text="${tender.userId}"></td>
         <td th:text="${tender.name}"></td>
         <td th:text="${tender.description}"></td>
         <td th:text="${tender.status}"></td>
+        <td><a th:href="@{/tender/{id}(id = ${urlList[itStat.index].url})}">Open</a></td>
       </tr>
     </table>
   </div>

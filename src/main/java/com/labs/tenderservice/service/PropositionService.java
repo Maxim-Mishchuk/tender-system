@@ -34,4 +34,12 @@ public class PropositionService {
     public List<Proposition> getPropositionsByTenderId(long tenderId) {
         return propositionRepository.getPropositionsByTenderId(new ID(tenderId));
     }
+
+    public List<Proposition> getAllPropositions() {
+        return propositionRepository.getAll();
+    }
+
+    public Proposition changePropositionStatus(long id, String status) {
+        return propositionRepository.updatePropositionStatus(new ID(id), Proposition.Status.valueOf(status));
+    }
 }

@@ -12,7 +12,7 @@ public class RAMTenderURL extends RAMRepository<TenderURLConnector> implements T
     @Override
     public ID getTenderIdByURL(String URL) {
         List<ID> idList = repository.values().stream()
-                .filter(tenderURLConnector -> tenderURLConnector.getURL().equals(URL))
+                .filter(tenderURLConnector -> tenderURLConnector.getUrl().equals(URL))
                 .map(TenderURLConnector::getTenderID)
                 .toList();
         if (idList.size() != 1) {
@@ -24,7 +24,7 @@ public class RAMTenderURL extends RAMRepository<TenderURLConnector> implements T
     @Override
     public void setNewUrl(ID tenderId, String url) {
         if (repository.containsKey(tenderId)) {
-            repository.get(tenderId).setURL(url);
+            repository.get(tenderId).setUrl(url);
         }
     }
 }

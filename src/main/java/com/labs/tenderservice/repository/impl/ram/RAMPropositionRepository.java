@@ -16,4 +16,11 @@ public class RAMPropositionRepository extends RAMRepository<Proposition> impleme
                 .filter(proposition -> proposition.getTenderId().equals(tenderId))
                 .toList();
     }
+
+    @Override
+    public Proposition updatePropositionStatus(ID id, Proposition.Status status) {
+        Proposition proposition = repository.get(id);
+        proposition.setStatus(status);
+        return proposition;
+    }
 }

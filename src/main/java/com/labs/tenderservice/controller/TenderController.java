@@ -1,6 +1,7 @@
 package com.labs.tenderservice.controller;
 
 import com.labs.tenderservice.entity.proposition.Proposition;
+import com.labs.tenderservice.entity.tender.TenderURLConnector;
 import com.labs.tenderservice.service.PropositionService;
 import com.labs.tenderservice.entity.tender.Tender;
 import com.labs.tenderservice.service.TenderService;
@@ -10,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 
@@ -21,11 +21,6 @@ public class TenderController {
 
     @Autowired
     PropositionService propositionService;
-
-    @GetMapping("/createTender")
-    String getForm() {
-        return "tender/createTender";
-    }
 
     @PostMapping("/tender")
     String createTender(String name, String description, long userId, Model model) {
@@ -42,13 +37,15 @@ public class TenderController {
     }
     @GetMapping("/tender")
     String showAllTenders(Model model) {
-        List<Tender> list = tenderService.getAllTenders();
-        model.addAttribute("tenderList", list);
+        List<Tender> tenderList = tenderService.getAllTenders();
+        List<TenderURLConnector> urlList = tenderService.getAllURLConnectors();
+        model.addAttribute("tenderList", tenderList);
+        model.addAttribute("urlList", urlList);
         return "tender/tender";
     }
 
-    @GetMapping("/tender/{tenderURL}")
-    String findTenderByURL(@PathVariable("tenderURL") String tenderUrl, Model model) {
+    @GetMapping("/tender/{tenderUrl}")
+    String findTenderByURL(@PathVariable("tenderUrl") String tenderUrl, Model model) {
         Tender tender = tenderService.getTenderByURL(tenderUrl);
         List<Proposition> propositionList = propositionService.getPropositionsByTenderId(tender.getId().id());
         model.addAttribute("tender", tender);
@@ -56,8 +53,8 @@ public class TenderController {
         return "tender/tender";
     }
 
-    @PutMapping("/tender/{tenderId}")
-    String changeStatusOfTender(@PathVariable("tenderId") long id, String status, Model model) {
+    @PostMapping("/tender/changeStatus")
+    String changeTenderStatus(long id, String status, Model model) {
         tenderService.changeTenderStatus(id, status);
         model.addAttribute("message", "tender with id: " + id + ", was successfully changed");
         return "result";
@@ -65,15 +62,19 @@ public class TenderController {
 
     @GetMapping("/tender/active")
     String showAllActiveTenders(Model model) {
-        List<Tender> list = tenderService.getActiveTenders();
-        model.addAttribute("tenderList", list);
+        List<Tender> tenderList = tenderService.getActiveTenders();;
+        List<TenderURLConnector> urlList = tenderService.getAllURLConnectors();
+        model.addAttribute("tenderList", tenderList);
+        model.addAttribute("urlList", urlList);
         return "tender/activeTender";
     }
 
     @GetMapping("/tender/search")
     String showTendersByKeywords(String keywords, Model model) {
-        List<Tender> list = tenderService.getTendersByKeywords(keywords);
-        model.addAttribute("tenderList", list);
+        List<Tender> tenderList = tenderService.getTendersByKeywords(keywords);
+        List<TenderURLConnector> urlList = tenderService.getAllURLConnectors();
+        model.addAttribute("tenderList", tenderList);
+        model.addAttribute("urlList", urlList);
         return "tender/tender";
     }
 }

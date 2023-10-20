@@ -1,6 +1,7 @@
 package com.labs.tenderservice.controller;
 
 import com.labs.tenderservice.entity.tender.Tender;
+import com.labs.tenderservice.entity.tender.TenderURLConnector;
 import com.labs.tenderservice.entity.user.User;
 import com.labs.tenderservice.service.TenderService;
 import com.labs.tenderservice.service.UserService;
@@ -31,7 +32,9 @@ public class UserController {
     @GetMapping("/user/{userId}/tenders")
     String showUserTenders(@PathVariable("userId") long userId, Model model) {
         List<Tender> list = tenderService.getUserTenders(userId);
+        List<TenderURLConnector> urlList = tenderService.getAllURLConnectors();
         model.addAttribute("tenderList", list);
+        model.addAttribute("urlList", urlList);
         return "user/userTender";
     }
 

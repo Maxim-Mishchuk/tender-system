@@ -6,36 +6,26 @@
 </head>
 <body>
 <h2>Change tender status</h2>
-<div th:if="${#lists.isEmpty(tenderList) && tender == null}">
+<div th:if="${#lists.isEmpty(tenderList)}">
     <p>
         We don't have any tender :(
     </p>
 </div>
 
 <div th:unless="${#lists.isEmpty(tenderList)}">
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>User ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Status</th>
-        </tr>
-        <tr th:each="tender : ${tenderList}">
-            <td th:text="${tender.id}"></td>
-            <td th:text="${tender.userId}"></td>
-            <td th:text="${tender.name}"></td>
-            <td th:text="${tender.description}"></td>
-            <td th:text="${tender.status}"></td>
-        </tr>
-    </table>
+    <form action="/tender/changeStatus" method="post">
+        <label for="id">Tender Id:</label>
+        <select name="id" id="id">
+            <option th:each="tender : ${tenderList}" th:value="${tender.id.id}" th:text="${tender.name}"></option>
+        </select>
+        <label for="status">Status: </label>
+        <select name="status" id="status">
+            <option th:each="status : ${statusList}" th:value="${status}" th:text="${status}"></option>
+        </select>
+        <br/>
+        <input type="submit" value="Change">
+    </form>
 </div>
-
-<form action="" method="put">
-    <select name="" id="">
-        <option th:each="status : ${statusList}" th:value="${status}" th:text="${status}"></option>
-    </select>
-</form>
 
 </body>
 </html>
