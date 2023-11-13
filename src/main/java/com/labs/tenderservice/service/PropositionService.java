@@ -16,28 +16,27 @@ public class PropositionService {
         this.propositionRepository = propositionRepository;
     }
 
-    public Proposition createProposition(String name, String description, long tenderId, double price, String currency) {
-        Proposition newProposition = new Proposition(
-                System.nanoTime(),
-                tenderId,
-                name,
-                description,
-                price,
-                Proposition.Currency.valueOf(currency),
-                Proposition.Status.ACTIVE
-        );
+    public Proposition create(Proposition newProposition) {
         return propositionRepository.create(newProposition);
     }
 
-    public List<Proposition> getPropositionsByTenderId(long tenderId) {
+    public List<Proposition> getByTenderId(long tenderId) {
         return propositionRepository.getPropositionsByTenderId(tenderId);
+    }
+
+    public Proposition getById(long id) {
+        return propositionRepository.read(id);
     }
 
     public List<Proposition> getAllPropositions() {
         return propositionRepository.getAll();
     }
 
-    public Proposition changePropositionStatus(long id, String status) {
-        return propositionRepository.updatePropositionStatus(id, Proposition.Status.valueOf(status));
+    public Proposition update(Proposition updatedProposition) {
+        return propositionRepository.update(updatedProposition);
+    }
+
+    public void delete(long id) {
+        propositionRepository.delete(id);
     }
 }

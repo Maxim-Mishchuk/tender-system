@@ -1,10 +1,7 @@
-package com.labs.tenderservice.repository.impl.Data;
+package com.labs.tenderservice.repository.impl.data;
 
-import com.labs.tenderservice.entity.tender.Tender;
-import com.labs.tenderservice.entity.tender.TenderURLConnector;
-import com.labs.tenderservice.entity.user.User;
-import com.labs.tenderservice.repository.IRepository;
-import com.labs.tenderservice.repository.TenderURLRepository;
+import com.labs.tenderservice.entity.tender.TenderUrlConnector;
+import com.labs.tenderservice.repository.TenderUrlRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -15,7 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Repository
-public class DAOTenderURL implements TenderURLRepository {
+public class DAOTenderUrl implements TenderUrlRepository {
 
     private static final String sqlCreate = "INSERT INTO TENDERURLCONNECTOR (tenderId, url) VALUES (?,?)";
     private static final String sqlRead = "SELECT tenderId, url FROM TENDERURLCONNECTOR WHERE tenderId = ?";
@@ -25,33 +22,33 @@ public class DAOTenderURL implements TenderURLRepository {
     private static final String sqlReadByURL = "SELECT tenderId, url FROM TENDERURLCONNECTOR WHERE url = ?";
     JdbcTemplate jdbcTemplate;
     @Autowired
-    public DAOTenderURL(JdbcTemplate jdbcTemplate) {
+    public DAOTenderUrl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    public TenderURLConnector create(TenderURLConnector tenderURLConnector) {
+    public TenderUrlConnector create(TenderUrlConnector tenderURLConnector) {
         jdbcTemplate.update(
                 sqlCreate,
-                tenderURLConnector.getTenderID(),
+                tenderURLConnector.getTenderId(),
                 tenderURLConnector.getUrl()
         );
         return tenderURLConnector;
     }
 
     @Override
-    public TenderURLConnector read(long id) {
-        return jdbcTemplate.queryForObject(sqlRead, DAOTenderURL::connectorRowMapper, id);
+    public TenderUrlConnector read(long id) {
+        return jdbcTemplate.queryForObject(sqlRead, DAOTenderUrl::connectorRowMapper, id);
     }
 
     @Override
-    public TenderURLConnector update(TenderURLConnector tenderURLConnector) {
+    public TenderUrlConnector update(TenderUrlConnector tenderURLConnector) {
         jdbcTemplate.update(
                 sqlUpdate,
                 tenderURLConnector.getUrl(),
-                tenderURLConnector.getTenderID()
+                tenderURLConnector.getTenderId()
         );
-        return jdbcTemplate.queryForObject(sqlRead, DAOTenderURL::connectorRowMapper, tenderURLConnector.getTenderID());
+        return jdbcTemplate.queryForObject(sqlRead, DAOTenderUrl::connectorRowMapper, tenderURLConnector.getTenderId());
     }
 
     @Override
@@ -60,18 +57,18 @@ public class DAOTenderURL implements TenderURLRepository {
     }
 
     @Override
-    public List<TenderURLConnector> getAll() {
-        return jdbcTemplate.query(sqlReadAll, DAOTenderURL::connectorRowMapper);
+    public List<TenderUrlConnector> getAll() {
+        return jdbcTemplate.query(sqlReadAll, DAOTenderUrl::connectorRowMapper);
     }
 
     @Override
     public long getTenderIdByURL(String URL) {
-        return Objects.requireNonNull(jdbcTemplate.queryForObject(sqlReadByURL, DAOTenderURL::connectorRowMapper, URL)).getTenderID();
+        return Objects.requireNonNull(jdbcTemplate.queryForObject(sqlReadByURL, DAOTenderUrl::connectorRowMapper, URL)).getTenderId();
     }
 
 
-    private static TenderURLConnector connectorRowMapper(ResultSet rs, int rowNum) throws SQLException {
-        return new TenderURLConnector(
+    private static TenderUrlConnector connectorRowMapper(ResultSet rs, int rowNum) throws SQLException {
+        return new TenderUrlConnector(
                 rs.getLong(1),
                 rs.getString(2)
         );

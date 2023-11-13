@@ -1,80 +1,114 @@
 package com.labs.tenderservice.service;
 
+import com.labs.tenderservice.entity.dto.TenderDTO;
+import com.labs.tenderservice.entity.proposition.Proposition;
 import com.labs.tenderservice.entity.tender.Tender;
-import com.labs.tenderservice.entity.tender.TenderURLConnector;
+import com.labs.tenderservice.entity.tender.TenderUrlConnector;
+import com.labs.tenderservice.repository.PropositionRepository;
 import com.labs.tenderservice.repository.TenderRepository;
-import com.labs.tenderservice.repository.TenderURLRepository;
+import com.labs.tenderservice.repository.TenderUrlRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
-
+@Service
 public class TenderService {
     private final TenderRepository tenderRepository;
-    private final TenderURLRepository tenderURLRepository;
+    private final TenderUrlRepository tenderUrlRepository;
+    private final PropositionRepository propositionRepository;
 
     @Autowired
-    public TenderService(TenderRepository tenderRepository, TenderURLRepository tenderURLRepository) {
+    public TenderService(TenderRepository tenderRepository, TenderUrlRepository tenderUrlRepository, PropositionRepository propositionRepository) {
         this.tenderRepository = tenderRepository;
-        this.tenderURLRepository = tenderURLRepository;
+        this.tenderUrlRepository = tenderUrlRepository;
+        this.propositionRepository = propositionRepository;
     }
 
-    public Tender createTender(String name, String description, long userId) {
-        Tender newTender = new Tender(
-                System.nanoTime(),
-                userId,
-                name,
-                description,
-                Tender.Status.ACTIVE
-        );
+    public TenderDTO create(Tender newTender) {
 
-        TenderURLConnector newTenderURLConnector = new TenderURLConnector(
-                newTender.getId(),
+        if (newTender.getStatus() == null) {
+            newTender.setStatus(Tender.Status.ACTIVE);
+        }
+
+        Tender tender = tenderRepository.create(newTender);
+
+        TenderUrlConnector newTenderUrlConnector = new TenderUrlConnector(
+                tender.getId(),
                 String.valueOf(newTender.getId())
         );
 
-        tenderURLRepository.create(newTenderURLConnector);
-        return tenderRepository.create(newTender);
+        TenderUrlConnector tenderUrlConnector = tenderUrlRepository.create(newTenderUrlConnector);
+
+        return new TenderDTO(tender, tenderUrlConnector);
     }
 
-    public void createCustomTenderUrl(long tenderId, String newUrl) {
+    public TenderUrlConnector updateUrl(TenderUrlConnector updatedTenderUrlConnector) {
         if (
-                !Objects.isNull(tenderURLRepository.read(tenderId))
+                !Objects.isNull(tenderUrlRepository.read(updatedTenderUrlConnector.getTenderId()))
         ) {
-            tenderURLRepository.update(new TenderURLConnector(tenderId, newUrl));
+            return tenderUrlRepository.update(updatedTenderUrlConnector);
         }
+        throw new NoSuchElementException();
     }
 
-    public List<Tender> getAllTenders() {
-        return tenderRepository.getAll();
+    public List<TenderDTO> getAll() {
+        return createTenderDTOList(tenderRepository.getAll());
     }
 
-    public List<Tender> getActiveTenders() {
-        return tenderRepository.getActiveTenders();
+    public List<TenderDTO> getActive() {
+        return createTenderDTOList(tenderRepository.getActiveTenders());
     }
 
-    public List<Tender> getUserTenders(long userId) {
-        return tenderRepository.getUserTenders(userId);
+    public List<TenderDTO> getUserTenders(long userId) {
+        return createTenderDTOList(tenderRepository.getUserTenders(userId));
     }
 
-    public List<Tender> getTendersByKeywords(String keywords) {
-        return tenderRepository.getTendersByKeywords(keywords);
+    public List<TenderDTO> getByKeywords(String keywords) {
+        return createTenderDTOList(tenderRepository.getTendersByKeywords(keywords));
     }
 
-    public Tender getTenderById(long id) {
-        return tenderRepository.read(id);
+    public TenderDTO getById(long id) {
+        Tender tender = tenderRepository.read(id);
+        return createTenderDTO(tender);
     }
 
-    public Tender getTenderByURL(String url) {
-        return tenderRepository.read(tenderURLRepository.getTenderIdByURL(url));
+    public TenderDTO getTenderByURL(String url) {
+        long id = tenderUrlRepository.getTenderIdByURL(url);
+        return getById(id);
     }
 
-    public List<TenderURLConnector> getAllURLConnectors() {
-        return tenderURLRepository.getAll();
+    public List<TenderUrlConnector> getAllUrl() {
+        return tenderUrlRepository.getAll();
     }
 
-    public Tender changeTenderStatus(long id, String status) {
-        return tenderRepository.updateTenderStatus(id, Tender.Status.valueOf(status));
+    public TenderDTO update(Tender updatedTender) {
+        Tender tender = tenderRepository.update(updatedTender);
+        return createTenderDTO(tender);
+    }
+
+    public void delete(long id) {
+        tenderRepository.delete(id);
+    }
+
+    private List<TenderDTO> createTenderDTOList(List<Tender> tenderList) {
+        List<TenderDTO> tenderDTOList = new LinkedList<>();
+
+        for (Tender tender: tenderList) {
+            TenderUrlConnector url = tenderUrlRepository.read(tender.getId());
+            List<Proposition> propositions = propositionRepository.getPropositionsByTenderId(tender.getId());
+            tenderDTOList.add(new TenderDTO(tender, url, propositions));
+        }
+
+        return tenderDTOList;
+    }
+
+    private TenderDTO createTenderDTO(Tender tender) {
+        TenderUrlConnector tenderUrlConnector = tenderUrlRepository.read(tender.getId());
+        List<Proposition> propositions = propositionRepository.getPropositionsByTenderId(tender.getId());
+        return new TenderDTO(tender, tenderUrlConnector, propositions);
     }
 }

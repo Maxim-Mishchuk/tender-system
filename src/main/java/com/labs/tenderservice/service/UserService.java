@@ -15,12 +15,23 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void createUser(String username) {
-        User newUser = new User(System.nanoTime(), username);
-        userRepository.create(newUser);
+    public User create(User newUser) {
+        return userRepository.create(newUser);
     }
 
-    public List<User> getAllUsers() {
+    public User getById(long id) {
+        return userRepository.read(id);
+    }
+
+    public List<User> getAll() {
         return userRepository.getAll();
+    }
+
+    public User update(User changedUser) {
+        return userRepository.update(changedUser);
+    }
+
+    public void delete(long id) {
+        userRepository.delete(id);
     }
 }

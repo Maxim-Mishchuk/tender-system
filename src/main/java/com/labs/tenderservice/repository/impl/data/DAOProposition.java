@@ -1,4 +1,4 @@
-package com.labs.tenderservice.repository.impl.Data;
+package com.labs.tenderservice.repository.impl.data;
 
 import com.labs.tenderservice.entity.proposition.Proposition;
 import com.labs.tenderservice.repository.PropositionRepository;
