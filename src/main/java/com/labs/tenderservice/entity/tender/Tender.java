@@ -2,7 +2,11 @@ package com.labs.tenderservice.entity.tender;
 
 import com.labs.tenderservice.entity.ID;
 import com.labs.tenderservice.entity.IDEntity;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class Tender extends IDEntity {
     private final ID userId;
     private String name;
@@ -14,30 +18,6 @@ public class Tender extends IDEntity {
         this.userId = userId;
         this.name = name;
         this.description = description;
-        this.status = status;
-    }
-
-    public ID getId() {
-        return id;
-    }
-
-    public ID getUserId() {
-        return userId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
         this.status = status;
     }
 

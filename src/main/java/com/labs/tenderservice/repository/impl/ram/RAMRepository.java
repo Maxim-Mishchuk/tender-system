@@ -30,6 +30,14 @@ public abstract class RAMRepository<T extends IDEntity> implements IRepository<T
         return repository.values().stream().toList();
     }
 
+    public T update(T t) {
+        if (repository.containsKey(t.getId())) {
+            repository.put(t.getId(), t);
+            return t;
+        }
+        return null;
+    }
+
     @Override
     public T delete(ID id) {
         return repository.remove(id);
