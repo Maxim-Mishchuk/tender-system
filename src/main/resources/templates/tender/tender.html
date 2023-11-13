@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <div th:if="${#lists.isEmpty(tenderList) && tender == null}">
+    <p>
+      We don't have any tender :(
+    </p>
+  </div>
+
+  <div th:unless="${#lists.isEmpty(tenderList)}">
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>User ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+      <tr th:each="tender, itStat : ${tenderList}">
+        <td th:text="${tender.id}"></td>
+        <td th:text="${tender.userId}"></td>
+        <td th:text="${tender.name}"></td>
+        <td th:text="${tender.description}"></td>
+        <td th:text="${tender.status}"></td>
+        <td><a th:href="@{/tender/{id}(id = ${urlList[itStat.index].url})}">Open</a></td>
+      </tr>
+    </table>
+  </div>
+
+<!--  <div th:if="${tender == null}">-->
+<!--    <p>-->
+<!--      We didn't find that tender-->
+<!--    </p>-->
+<!--  </div>-->
+
+  <div th:if="${tender}">
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>User ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td th:text="${tender.id}"></td>
+        <td th:text="${tender.userId}"></td>
+        <td th:text="${tender.name}"></td>
+        <td th:text="${tender.description}"></td>
+        <td th:text="${tender.status}"></td>
+      </tr>
+    </table>
+    <div th:if="${#lists.isEmpty(propositionList)}">
+      <p>
+        This tender doesn't have any propositions
+      </p>
+    </div>
+    <div th:unless="${#lists.isEmpty(propositionList)}">
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Currency</th>
+          <th>Status</th>
+        </tr>
+        <tr th:each="proposition : ${propositionList}">
+          <td th:text="${proposition.id}"></td>
+          <td th:text="${proposition.name}"></td>
+          <td th:text="${proposition.description}"></td>
+          <td th:text="${proposition.price}"></td>
+          <td th:text="${proposition.currency}"></td>
+          <td th:text="${proposition.status}"></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

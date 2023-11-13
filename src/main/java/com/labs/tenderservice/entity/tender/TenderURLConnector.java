@@ -3,12 +3,16 @@ package com.labs.tenderservice.entity.tender;
 import com.labs.tenderservice.entity.ID;
 import com.labs.tenderservice.entity.IDEntity;
 
-public class TenderUrlConnector extends IDEntity {
+public class TenderURLConnector extends IDEntity {
     private String url;
 
-    public TenderUrlConnector(ID tenderId, String url) {
-        super(tenderId);
+    public TenderURLConnector(ID tenderID, String url) {
+        super(tenderID);
         this.url = url;
+    }
+
+    public ID getTenderID() {
+        return getId();
     }
 
     public String getUrl() {

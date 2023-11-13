@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:if="${#lists.isEmpty(propositionList)}">
+    <p>
+        This service doesn't have any propositions
+    </p>
+</div>
+<div th:unless="${#lists.isEmpty(propositionList)}">
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Currency</th>
+            <th>Status</th>
+        </tr>
+        <tr th:each="proposition : ${propositionList}">
+            <td th:text="${proposition.id}"></td>
+            <td th:text="${proposition.name}"></td>
+            <td th:text="${proposition.description}"></td>
+            <td th:text="${proposition.price}"></td>
+            <td th:text="${proposition.currency}"></td>
+            <td th:text="${proposition.status}"></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

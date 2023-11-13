@@ -3,54 +3,36 @@ package com.labs.tenderservice.controller;
 import com.labs.tenderservice.entity.proposition.Proposition;
 import com.labs.tenderservice.service.PropositionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.Collection;
+import java.util.List;
 
-@RestController
-@RequestMapping("/propositions")
+@Controller
 public class PropositionController {
     @Autowired
     PropositionService propositionService;
 
-    @PostMapping
-    ResponseEntity<Proposition> create(@RequestBody Proposition newProposition) {
-        Proposition proposition = propositionService.create(newProposition);
-        return ResponseEntity.status(HttpStatus.CREATED).body(proposition);
+    @PostMapping("/proposition")
+    String createProposition(String name, String description, long tenderId, double price, String currency, Model model) {
+        propositionService.createProposition(name, description, tenderId, price, currency);
+        model.addAttribute("message", "proposition of tenderId: " + tenderId + ", with name: " + name + ", was successfully added");
+        return "result";
     }
 
-    @GetMapping
-    ResponseEntity<Collection<Proposition>> getAllPropositionsByTenderId(long tenderId) {
-        Collection<Proposition> propositions = propositionService.getByTenderId(tenderId);
-        return ResponseEntity.ok(propositions);
+    @PostMapping("/proposition/changeStatus")
+    String changePropositionStatus(long id, String status, Model model) {
+        propositionService.changePropositionStatus(id, status);
+        model.addAttribute("message", "proposition with id:" + id + ", was successfully changed");
+        return "result";
     }
 
-    @GetMapping("/{id}")
-    ResponseEntity<Proposition> getPropositionById(@PathVariable("id") long id) {
-        Proposition proposition = propositionService.getById(id);
-        if (proposition == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(proposition);
-    }
-
-    @PutMapping
-    ResponseEntity<Proposition> update(@RequestBody Proposition updatedProposition) {
-        Proposition proposition = propositionService.update(updatedProposition);
-        if (proposition == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(proposition);
-    }
-
-    @DeleteMapping("/{id}")
-    ResponseEntity<Proposition> delete(@PathVariable("id") long id) {
-        Proposition proposition = propositionService.delete(id);
-        if (proposition == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(proposition);
+    @GetMapping("/proposition")
+    String getAllPropositionsByTender(long tenderId, Model model) {
+        List<Proposition> list = propositionService.getPropositionsByTenderId(tenderId);
+        model.addAttribute("propositionList", list);
+        return "proposition/proposition";
     }
 }

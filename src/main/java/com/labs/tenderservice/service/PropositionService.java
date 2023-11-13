@@ -1,9 +1,9 @@
 package com.labs.tenderservice.service;
 
-import com.labs.tenderservice.entity.ID;
-import com.labs.tenderservice.entity.proposition.Proposition;
 import com.labs.tenderservice.repository.PropositionRepository;
 import com.labs.tenderservice.repository.impl.ram.RAMPropositionRepository;
+import com.labs.tenderservice.entity.ID;
+import com.labs.tenderservice.entity.proposition.Proposition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,28 +18,28 @@ public class PropositionService {
         this.propositionRepository = propositionRepository;
     }
 
-    public Proposition create(Proposition newProposition) {
-        newProposition.setId(ID.generateID());
+    public Proposition createProposition(String name, String description, long tenderId, double price, String currency) {
+        Proposition newProposition = new Proposition(
+                ID.generateID(),
+                new ID(tenderId),
+                name,
+                description,
+                price,
+                Proposition.Currency.valueOf(currency),
+                Proposition.Status.ACTIVE
+        );
         return propositionRepository.add(newProposition);
     }
 
-    public List<Proposition> getByTenderId(long tenderId) {
+    public List<Proposition> getPropositionsByTenderId(long tenderId) {
         return propositionRepository.getPropositionsByTenderId(new ID(tenderId));
-    }
-
-    public Proposition getById(long id) {
-        return propositionRepository.getById(new ID(id));
     }
 
     public List<Proposition> getAllPropositions() {
         return propositionRepository.getAll();
     }
 
-    public Proposition update(Proposition updatedProposition) {
-        return propositionRepository.update(updatedProposition);
-    }
-
-    public Proposition delete(long id) {
-        return propositionRepository.delete(new ID(id));
+    public Proposition changePropositionStatus(long id, String status) {
+        return propositionRepository.updatePropositionStatus(new ID(id), Proposition.Status.valueOf(status));
     }
 }

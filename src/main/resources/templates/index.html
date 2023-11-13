@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <header>
+        <h1>Tender-service</h1>
+    </header>
+    <nav>
+        <div>
+            You're not authorized
+            <a href="user/createUser">register</a>
+<!--            <a href="">log in</a>-->
+<!--            <a href="">sign out</a>-->
+        </div>
+        <ul>
+            <li>
+                <a href="">main</a>
+            </li>
+            <li>
+                <a href="">user</a>
+                <ul>
+                    <li><a href="tender/createTender">create tender</a></li>
+<!--                    <li>edit existed tender</li>-->
+<!--                    <li>show created tenders</li>-->
+<!--                    <li>show created propositions</li>-->
+                </ul>
+            </li>
+            <li>
+                <a href="">tender</a>
+                <ul>
+                    <li><a href="/tender/active">show active</a></li>
+                    <li><a href="/tender/searchTender">search tender</a></li>
+                    <li><a href="/tender/changeStatus">change status</a></li>
+                </ul>
+                <a href="">proposition</a>
+                <ul>
+                    <li><a href="/proposition/createProposition">create new</a></li>
+<!--                    <li>edit exist</li>-->
+                    <li><a href="/proposition/changeStatus">change status</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</body>
+</html>
