@@ -21,15 +21,5 @@ public class TenderServiceApplication {
         return new TenderService(tenderRepository, tenderURLRepository);
     }
 
-    @Bean
-    DataSource dataSource() throws SQLException {
-        OracleDataSource dataSource = new OracleDataSource();
-        dataSource.setUser("SYSTEM");
-        dataSource.setPassword("159085");
-        dataSource.setURL("jdbc:oracle:thin:@localhost:1521/XEPDB1");
-        dataSource.setImplicitCachingEnabled(true);
-
-        return dataSource;
-    }
 }
 
