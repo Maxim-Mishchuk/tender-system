@@ -1,7 +1,5 @@
 package com.labs.tenderservice.service;
 
-import com.labs.tenderservice.repository.UserRepository;
-import com.labs.tenderservice.entity.ID;
 import com.labs.tenderservice.entity.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

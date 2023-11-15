@@ -1,8 +1,5 @@
 package com.labs.tenderservice.service;
 
-import com.labs.tenderservice.repository.TenderRepository;
-import com.labs.tenderservice.repository.TenderURLRepository;
-import com.labs.tenderservice.entity.ID;
 import com.labs.tenderservice.entity.tender.Tender;
 import com.labs.tenderservice.entity.tender.TenderURLConnector;
 import org.springframework.beans.factory.annotation.Autowired;

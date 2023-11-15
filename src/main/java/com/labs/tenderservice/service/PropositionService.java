@@ -1,8 +1,5 @@
 package com.labs.tenderservice.service;
 
-import com.labs.tenderservice.repository.PropositionRepository;
-import com.labs.tenderservice.repository.impl.ram.RAMPropositionRepository;
-import com.labs.tenderservice.entity.ID;
 import com.labs.tenderservice.entity.proposition.Proposition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
