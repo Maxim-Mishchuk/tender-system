@@ -42,7 +42,7 @@ public class DAOProposition implements PropositionRepository {
             preparedStatement.setString(2, proposition.getName());
             preparedStatement.setString(3, proposition.getDescription());
             preparedStatement.setDouble(4, proposition.getPrice());
-            preparedStatement.setString(5, proposition.getCurrency().toString());
+            preparedStatement.setString(5, proposition.getCurrency().name());
             preparedStatement.setString(6, proposition.getStatus().name());
             return preparedStatement;
         }, keyHolder);
@@ -69,11 +69,11 @@ public class DAOProposition implements PropositionRepository {
                 proposition.getName(),
                 proposition.getDescription(),
                 proposition.getPrice(),
-                proposition.getCurrency(),
-                proposition.getStatus(),
+                proposition.getCurrency().name(),
+                proposition.getStatus().name(),
                 proposition.getId()
         );
-        return jdbcTemplate.queryForObject(sqlRead, DAOProposition::propositionRowMapper, proposition.getId());
+        return read(proposition.getId());
     }
 
     @Override
@@ -99,7 +99,7 @@ public class DAOProposition implements PropositionRepository {
                 status.name(),
                 id
         );
-        return jdbcTemplate.queryForObject(sqlRead, DAOProposition::propositionRowMapper, id);
+        return read(id);
     }
 
     private static Proposition propositionRowMapper(ResultSet rs, int rowNum) throws SQLException {

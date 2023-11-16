@@ -62,10 +62,10 @@ public class DAOTender implements TenderRepository {
                 sqlUpdate,
                 tender.getName(),
                 tender.getDescription(),
-                tender.getStatus(),
+                tender.getStatus().name(),
                 tender.getId()
         );
-        return jdbcTemplate.queryForObject(sqlReadActive, DAOTender::tenderRowMapper, tender.getId());
+        return read(tender.getId());
     }
 
     @Override
@@ -100,7 +100,7 @@ public class DAOTender implements TenderRepository {
                 status.name(),
                 id
         );
-        return jdbcTemplate.queryForObject(sqlRead, DAOTender::tenderRowMapper, id);
+        return read(id);
     }
 
     private static Tender tenderRowMapper(ResultSet rs, int rowNum) throws SQLException {
