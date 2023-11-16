@@ -36,7 +36,7 @@ public class PropositionService {
         return propositionRepository.update(updatedProposition);
     }
 
-    public void delete(long id) {
-        propositionRepository.delete(id);
+    public Proposition delete(long id) {
+        return propositionRepository.delete(id);
     }
 }

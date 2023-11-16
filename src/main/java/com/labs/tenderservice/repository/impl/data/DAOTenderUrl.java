@@ -52,8 +52,10 @@ public class DAOTenderUrl implements TenderUrlRepository {
     }
 
     @Override
-    public void delete(long id) {
+    public TenderUrlConnector delete(long id) {
+        TenderUrlConnector tenderUrlConnector = read(id);
         jdbcTemplate.update(sqlDelete, id);
+        return tenderUrlConnector;
     }
 
     @Override

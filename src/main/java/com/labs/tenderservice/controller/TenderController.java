@@ -67,7 +67,11 @@ public class TenderController {
 
     @DeleteMapping("/{id}")
     ResponseEntity<TenderDTO> delete(@PathVariable("id") long id) {
-        return ResponseEntity.ok().build();
+        TenderDTO tender = tenderService.delete(id);
+        if (tender == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(tender);
     }
 
 }

@@ -20,7 +20,7 @@ public class DAOTender implements TenderRepository {
     private static final String sqlUpdate = "UPDATE tenders SET Name=?, Description=?, Status=? WHERE ID = ?";
     private static final String sqlDelete = "DELETE FROM TENDERS WHERE ID = ?";
     private static final String sqlReadAll = "SELECT ID, UserID, Name, Description, Status  FROM TENDERS ";
-    private static final String sqlReadByKeywords = "SELECT ID, UserID, Name, Description, Status  FROM TENDERS WHERE Name OR Description LIKE ? ";
+    private static final String sqlReadByKeywords = "SELECT ID, UserID, Name, Description, Status  FROM TENDERS WHERE Name LIKE ? OR Description LIKE ? ";
     private static final String sqlUpdateStatus = "UPDATE TENDERS SET Status=? WHERE ID = ?";
     private static final String sqlReadActive = "SELECT ID, UserID, Name, Description, Status  FROM TENDERS WHERE STATUS = ?";
     private static final String sqlReadByUserId = "SELECT ID, UserID, Name, Description, Status  FROM TENDERS WHERE UserID = ?";
@@ -69,8 +69,10 @@ public class DAOTender implements TenderRepository {
     }
 
     @Override
-    public void delete(long id) {
+    public Tender delete(long id) {
+        Tender tender = read(id);
         jdbcTemplate.update(sqlDelete, id);
+        return tender;
     }
 
     @Override
@@ -90,7 +92,7 @@ public class DAOTender implements TenderRepository {
 
     @Override
     public List<Tender> getTendersByKeywords(String keywords) {
-        return jdbcTemplate.query(sqlReadByKeywords, DAOTender::tenderRowMapper, keywords);
+        return jdbcTemplate.query(sqlReadByKeywords, DAOTender::tenderRowMapper, keywords, keywords);
     }
 
     @Override

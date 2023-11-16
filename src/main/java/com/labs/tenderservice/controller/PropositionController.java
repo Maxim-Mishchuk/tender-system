@@ -47,6 +47,10 @@ public class PropositionController {
 
     @DeleteMapping("/{id}")
     ResponseEntity<Proposition> delete(@PathVariable("id") long id) {
-        return ResponseEntity.ok().build();
+        Proposition proposition = propositionService.delete(id);
+        if (proposition == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(proposition);
     }
 }

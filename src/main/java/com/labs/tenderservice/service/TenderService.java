@@ -90,14 +90,16 @@ public class TenderService {
         return createTenderDTO(tender);
     }
 
-    public void delete(long id) {
-        tenderRepository.delete(id);
+    public TenderDTO delete(long id) {
+        List<Proposition>  propositions = propositionRepository.deletePropositionsByTenderId(id);
+        TenderUrlConnector tenderUrlConnector = tenderUrlRepository.delete(id);
+        return new TenderDTO((tenderRepository.delete(id)),tenderUrlConnector, propositions);
     }
 
     private List<TenderDTO> createTenderDTOList(List<Tender> tenderList) {
         List<TenderDTO> tenderDTOList = new LinkedList<>();
 
-        for (Tender tender: tenderList) {
+        for (Tender tender : tenderList) {
             TenderUrlConnector url = tenderUrlRepository.read(tender.getId());
             List<Proposition> propositions = propositionRepository.getPropositionsByTenderId(tender.getId());
             tenderDTOList.add(new TenderDTO(tender, url, propositions));

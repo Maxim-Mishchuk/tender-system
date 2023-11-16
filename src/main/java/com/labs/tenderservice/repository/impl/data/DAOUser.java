@@ -54,14 +54,17 @@ public class DAOUser implements UserRepository {
     public User update(User user) {
         jdbcTemplate.update(
                 sqlUpdate,
-                user.getUsername()
+                user.getUsername(),
+                user.getId()
         );
-        return jdbcTemplate.queryForObject(sqlRead, DAOUser::userRowMapper, user.getId());
+        return read(user.getId());
     }
 
     @Override
-    public void delete(long id) {
+    public User delete(long id) {
+        User user = read(id);
         jdbcTemplate.update(sqlDelete, id);
+        return user;
     }
 
     @Override

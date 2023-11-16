@@ -23,7 +23,7 @@ public class DAOProposition implements PropositionRepository {
     private static final String sqlDelete = "DELETE FROM Propositions WHERE ID = ?";
     private static final String sqlReadAll = "SELECT ID, TenderID, Name, Description, Price, Currency, Status   FROM PROPOSITIONS ";
     private static final String sqlReadByTenderId = "SELECT ID, TenderID, Name, Description, Price, Currency, Status   FROM PROPOSITIONS WHERE TenderID = ?";
-
+    private static final String sqlDeleteByTenderId = "DELETE FROM Propositions WHERE TenderID = ?";
     private static final String sqlUpdateStatus = "UPDATE PROPOSITIONS SET Status=? WHERE ID = ?";
 
     JdbcTemplate jdbcTemplate;
@@ -77,8 +77,10 @@ public class DAOProposition implements PropositionRepository {
     }
 
     @Override
-    public void delete(long id) {
+    public Proposition delete(long id) {
+        Proposition proposition = read(id);
         jdbcTemplate.update(sqlDelete, id);
+        return proposition;
     }
 
     @Override
@@ -100,6 +102,13 @@ public class DAOProposition implements PropositionRepository {
                 id
         );
         return read(id);
+    }
+
+    @Override
+    public List<Proposition> deletePropositionsByTenderId(long id) {
+        List<Proposition> propositions = getPropositionsByTenderId(id);
+        jdbcTemplate.update(sqlDeleteByTenderId, id);
+        return propositions;
     }
 
     private static Proposition propositionRowMapper(ResultSet rs, int rowNum) throws SQLException {
