@@ -32,6 +32,7 @@ public class FormController {
     @GetMapping("/tender/createTender")
     String createTender(Model model) {
         List<User> list = userService.getAllUsers();
+        System.out.println(list);
         model.addAttribute("userList", list);
         return "tender/createTender";
     }

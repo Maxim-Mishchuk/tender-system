@@ -21,7 +21,7 @@
         <textarea name="description" cols="30" rows="10" placeholder="Description" required></textarea><br/>
         <label for="userId">User: </label>
         <select name="userId" id="userId" required>
-            <option th:each="user : ${userList}" th:value="${user.id.id}" th:text="${user.username}"></option>
+            <option th:each="user : ${userList}" th:value="${user.id}" th:text="${user.username}"></option>
         </select><br/>
         <input type="submit" value="Create">
     </form>
