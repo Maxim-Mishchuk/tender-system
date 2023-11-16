@@ -38,7 +38,7 @@ public class TenderService {
 
         TenderUrlConnector newTenderUrlConnector = new TenderUrlConnector(
                 tender.getId(),
-                String.valueOf(newTender.getId())
+                String.valueOf(tender.getId())
         );
 
         TenderUrlConnector tenderUrlConnector = tenderUrlRepository.create(newTenderUrlConnector);
