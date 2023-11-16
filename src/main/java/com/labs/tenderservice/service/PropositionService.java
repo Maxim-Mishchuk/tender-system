@@ -12,25 +12,25 @@ public class PropositionService {
     private final PropositionRepository propositionRepository;
 
     @Autowired
-    public PropositionService(RAMPropositionRepository propositionRepository) {
+    public PropositionService(PropositionRepository propositionRepository) {
         this.propositionRepository = propositionRepository;
     }
 
     public Proposition createProposition(String name, String description, long tenderId, double price, String currency) {
         Proposition newProposition = new Proposition(
-                ID.generateID(),
-                new ID(tenderId),
+                System.nanoTime(),
+                tenderId,
                 name,
                 description,
                 price,
                 Proposition.Currency.valueOf(currency),
                 Proposition.Status.ACTIVE
         );
-        return propositionRepository.add(newProposition);
+        return propositionRepository.create(newProposition);
     }
 
     public List<Proposition> getPropositionsByTenderId(long tenderId) {
-        return propositionRepository.getPropositionsByTenderId(new ID(tenderId));
+        return propositionRepository.getPropositionsByTenderId(tenderId);
     }
 
     public List<Proposition> getAllPropositions() {
@@ -38,6 +38,6 @@ public class PropositionService {
     }
 
     public Proposition changePropositionStatus(long id, String status) {
-        return propositionRepository.updatePropositionStatus(new ID(id), Proposition.Status.valueOf(status));
+        return propositionRepository.updatePropositionStatus(id, Proposition.Status.valueOf(status));
     }
 }

@@ -2,6 +2,8 @@ package com.labs.tenderservice.service;
 
 import com.labs.tenderservice.entity.tender.Tender;
 import com.labs.tenderservice.entity.tender.TenderURLConnector;
+import com.labs.tenderservice.repository.TenderRepository;
+import com.labs.tenderservice.repository.TenderURLRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -20,8 +22,8 @@ public class TenderService {
 
     public Tender createTender(String name, String description, long userId) {
         Tender newTender = new Tender(
-                ID.generateID(),
-                new ID(userId),
+                System.nanoTime(),
+                userId,
                 name,
                 description,
                 Tender.Status.ACTIVE
@@ -29,18 +31,18 @@ public class TenderService {
 
         TenderURLConnector newTenderURLConnector = new TenderURLConnector(
                 newTender.getId(),
-                String.valueOf(newTender.getId().id())
+                String.valueOf(newTender.getId())
         );
 
-        tenderURLRepository.add(newTenderURLConnector);
-        return tenderRepository.add(newTender);
+        tenderURLRepository.create(newTenderURLConnector);
+        return tenderRepository.create(newTender);
     }
 
     public void createCustomTenderUrl(long tenderId, String newUrl) {
         if (
-                !Objects.isNull(tenderURLRepository.getById(new ID(tenderId)))
+                !Objects.isNull(tenderURLRepository.read(tenderId))
         ) {
-            tenderURLRepository.setNewUrl(new ID(tenderId), newUrl);
+            tenderURLRepository.update(new TenderURLConnector(tenderId, newUrl));
         }
     }
 
@@ -53,7 +55,7 @@ public class TenderService {
     }
 
     public List<Tender> getUserTenders(long userId) {
-        return tenderRepository.getUserTenders(new ID(userId));
+        return tenderRepository.getUserTenders(userId);
     }
 
     public List<Tender> getTendersByKeywords(String keywords) {
@@ -61,12 +63,11 @@ public class TenderService {
     }
 
     public Tender getTenderById(long id) {
-        return tenderRepository.getById(new ID(id));
+        return tenderRepository.read(id);
     }
 
     public Tender getTenderByURL(String url) {
-        ID tenderID = tenderURLRepository.getTenderIdByURL(url);
-        return tenderRepository.getById(tenderID);
+        return tenderRepository.read(tenderURLRepository.getTenderIdByURL(url));
     }
 
     public List<TenderURLConnector> getAllURLConnectors() {
@@ -74,6 +75,6 @@ public class TenderService {
     }
 
     public Tender changeTenderStatus(long id, String status) {
-        return tenderRepository.updateTenderStatus(new ID(id), Tender.Status.valueOf(status));
+        return tenderRepository.updateTenderStatus(id, Tender.Status.valueOf(status));
     }
 }

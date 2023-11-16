@@ -1,8 +1,8 @@
 package com.labs.tenderservice.repository.impl.Data;
 
-import com.labs.tenderservice.entity.proposition.Proposition;
+
 import com.labs.tenderservice.entity.user.User;
-import com.labs.tenderservice.repository.impl.UserRepository;
+import com.labs.tenderservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;

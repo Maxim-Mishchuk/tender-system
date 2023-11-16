@@ -1,7 +1,7 @@
 package com.labs.tenderservice.repository.impl.Data;
 
 import com.labs.tenderservice.entity.proposition.Proposition;
-import com.labs.tenderservice.repository.impl.PropositionRepository;
+import com.labs.tenderservice.repository.PropositionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -87,7 +87,7 @@ public class DAOProposition implements PropositionRepository {
     }
 
     @Override
-    public List<Proposition> getPropositionByTenderId(long id) {
+    public List<Proposition> getPropositionsByTenderId(long id) {
         return jdbcTemplate.query(sqlReadByTenderId, DAOProposition::propositionRowMapper, id);
     }
 
