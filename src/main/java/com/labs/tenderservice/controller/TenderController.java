@@ -47,7 +47,7 @@ public class TenderController {
     @GetMapping("/tender/{tenderUrl}")
     String findTenderByURL(@PathVariable("tenderUrl") String tenderUrl, Model model) {
         Tender tender = tenderService.getTenderByURL(tenderUrl);
-        List<Proposition> propositionList = propositionService.getPropositionsByTenderId(tender.getId().id());
+        List<Proposition> propositionList = propositionService.getPropositionsByTenderId(tender.getId());
         model.addAttribute("tender", tender);
         model.addAttribute("propositionList", propositionList);
         return "tender/tender";

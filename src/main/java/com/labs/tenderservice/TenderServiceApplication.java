@@ -1,5 +1,7 @@
 package com.labs.tenderservice;
 
+import com.labs.tenderservice.repository.TenderRepository;
+import com.labs.tenderservice.repository.TenderURLRepository;
 import com.labs.tenderservice.service.TenderService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
