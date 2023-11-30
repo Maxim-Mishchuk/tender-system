@@ -1,17 +1,15 @@
 package com.labs.tenderservice.entity.user;
 
-import com.labs.tenderservice.entity.ID;
-import com.labs.tenderservice.entity.IDEntity;
-
-public class User extends IDEntity {
+public class User  {
+    private final long id;
     private final String username;
 
-    public User(ID id, String username) {
-        super(id);
+    public User(long id, String username) {
+        this.id = id;
         this.username = username;
     }
 
-    public ID getId() {
+    public long getId() {
         return id;
     }
 

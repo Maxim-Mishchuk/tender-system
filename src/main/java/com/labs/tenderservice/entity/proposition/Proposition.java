@@ -1,18 +1,16 @@
 package com.labs.tenderservice.entity.proposition;
 
-import com.labs.tenderservice.entity.ID;
-import com.labs.tenderservice.entity.IDEntity;
-
-public class Proposition extends IDEntity {
-    private final ID tenderId;
+public class Proposition{
+    private final long id;
+    private final long tenderId;
     private String name;
     private String description;
     private Double price;
     private Currency currency;
     private Status status;
 
-    public Proposition(ID id, ID tenderId, String name, String description, Double price, Currency currency, Status status) {
-        super(id);
+    public Proposition(long id, long tenderId, String name, String description, Double price, Currency currency, Status status) {
+        this.id = id;
         this.tenderId = tenderId;
         this.name = name;
         this.description = description;
@@ -21,11 +19,11 @@ public class Proposition extends IDEntity {
         this.status = status;
     }
 
-    public ID getId() {
+    public long getId() {
         return id;
     }
 
-    public ID getTenderId() {
+    public long getTenderId() {
         return tenderId;
     }
 

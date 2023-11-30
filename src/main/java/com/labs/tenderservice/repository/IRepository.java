@@ -1,12 +1,12 @@
 package com.labs.tenderservice.repository;
 
-import com.labs.tenderservice.entity.ID;
-
 import java.util.List;
 
 public interface IRepository<T> {
-    T add(T t);
-    T getById(ID id);
+    T create(T t);
+    T read(long id);
+    T update(T t);
+    T delete(long id);
     List<T> getAll();
-    T delete(ID id);
+
 }
