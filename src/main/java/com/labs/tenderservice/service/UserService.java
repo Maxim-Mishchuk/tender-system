@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserService {
     private final UserRepository userRepository;
     @Autowired
@@ -17,23 +18,23 @@ public class UserService {
     }
 
     public User create(User newUser) {
-        return userRepository.create(newUser);
+        return userRepository.save(newUser);
     }
 
     public User getById(long id) {
-        return userRepository.read(id);
+        return userRepository.getUserById(id);
     }
 
     public List<User> getAll() {
-        return userRepository.getAll();
+        return userRepository.findAll();
     }
 
     public User update(User changedUser) {
-        return userRepository.update(changedUser);
+        return userRepository.save(changedUser);
     }
 
-    @Transactional
+
     public User delete(long id) {
-        return userRepository.delete(id);
+        return userRepository.deleteById(id);
     }
 }

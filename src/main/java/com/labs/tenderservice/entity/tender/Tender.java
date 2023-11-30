@@ -1,43 +1,36 @@
 package com.labs.tenderservice.entity.tender;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.labs.tenderservice.entity.proposition.Proposition;
+import com.labs.tenderservice.entity.user.User;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.Collection;
+import java.util.List;
+
+@Getter
+@Setter
+@Entity
 public class Tender {
-    private final long id;
-    private final long userId;
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private long id;
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "UserID", referencedColumnName = "Id")
+    @JsonIgnore
+    private User user;
     private String name;
     private String description;
+    @Enumerated(EnumType.STRING)
     private Status status;
+    @OneToMany(mappedBy = "tender")
+    List<Proposition>propositionList;
+    @OneToOne(mappedBy = "tender")
+    TenderUrlConnector tenderUrlConnector;
 
-    public Tender(long id, long userId, String name, String description, Status status) {
-        this.id = id;
-        this.userId = userId;
-        this.name = name;
-        this.description = description;
-        this.status = status;
-    }
 
-    public long getId() {
-        return id;
-    }
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
 
     public enum Status {
         ACTIVE, FROZEN, CLOSED

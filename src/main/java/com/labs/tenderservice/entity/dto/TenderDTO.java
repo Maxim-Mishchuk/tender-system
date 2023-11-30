@@ -3,7 +3,9 @@ package com.labs.tenderservice.entity.dto;
 import com.labs.tenderservice.entity.proposition.Proposition;
 import com.labs.tenderservice.entity.tender.Tender;
 import com.labs.tenderservice.entity.tender.TenderUrlConnector;
+import com.labs.tenderservice.entity.user.User;
 import lombok.Getter;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -11,7 +13,7 @@ import java.util.List;
 @Getter
 public class TenderDTO {
     private final long id;
-    private final long userId;
+    private final User user;
     private final String url;
     private final String name;
     private final String description;
@@ -20,7 +22,7 @@ public class TenderDTO {
 
     public TenderDTO(Tender tender, TenderUrlConnector tenderUrlConnector, List<Proposition> propositionList) {
         this.id = tender.getId();
-        this.userId = tender.getUserId();
+        this.user = tender.getUser();
         this.url = tenderUrlConnector.getUrl();
         this.name = tender.getName();
         this.description = tender.getDescription();
@@ -30,7 +32,7 @@ public class TenderDTO {
 
     public TenderDTO(Tender tender, TenderUrlConnector tenderUrlConnector) {
         this.id = tender.getId();
-        this.userId = tender.getUserId();
+        this.user = tender.getUser();
         this.url = tenderUrlConnector.getUrl();
         this.name = tender.getName();
         this.description = tender.getDescription();
@@ -38,11 +40,14 @@ public class TenderDTO {
         this.propositionList = Collections.emptyList();
     }
 
+
+
+
     public static List<TenderDTO> getList(List<Tender> tenderList, List<TenderUrlConnector> tenderUrlConnectorList) {
         return tenderUrlConnectorList.stream()
-                .filter(urlConnector -> tenderList.stream().anyMatch(tender -> tender.getId() == urlConnector.getTenderId()))
+                .filter(urlConnector -> tenderList.stream().anyMatch(tender -> tender.getId() == urlConnector.getTender().getId()))
                 .map(urlConnector -> {
-                   Tender tender = tenderList.stream().filter(t -> t.getId() == urlConnector.getTenderId()).findFirst().get();
+                   Tender tender = tenderList.stream().filter(t -> t.getId() == urlConnector.getTender().getId()).findFirst().get();
                    return new TenderDTO(tender, urlConnector);
                 })
                 .toList();

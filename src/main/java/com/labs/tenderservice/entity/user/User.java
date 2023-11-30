@@ -1,19 +1,22 @@
 package com.labs.tenderservice.entity.user;
 
-public class User  {
-    private final long id;
-    private final String username;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.labs.tenderservice.entity.tender.Tender;
+import jakarta.persistence.*;
+import lombok.Getter;
 
-    public User(long id, String username) {
-        this.id = id;
-        this.username = username;
-    }
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
 
-    public long getId() {
-        return id;
-    }
+@Entity
+@Getter
+public class User {
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private long id;
+    private String username;
+    @OneToMany(mappedBy = "user",cascade=CascadeType.ALL )
+    List<Tender>tenders;
 
-    public String getUsername() {
-        return username;
-    }
 }

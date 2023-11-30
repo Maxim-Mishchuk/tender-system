@@ -1,16 +1,28 @@
 package com.labs.tenderservice.entity.tender;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.Getter;
+
+@Entity
+@Table(name = "tender_url_connector")
+@Getter
 public class TenderUrlConnector {
-    private final long tenderId;
-    private final String url;
-    public TenderUrlConnector(long tenderID, String url) {
-        this.tenderId = tenderID;
-        this.url = url;
-    }
-    public long getTenderId() {
-        return tenderId;
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private long id;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tender_id", referencedColumnName = "Id")
+    @JsonIgnore
+    private Tender tender;
+    private String url;
+
+    public TenderUrlConnector() {
     }
 
-    public String getUrl() {
-        return url;
+    public TenderUrlConnector(long id, Tender tender, String url) {
+        this.id = id;
+        this.tender = tender;
+        this.url = url;
     }
 }
