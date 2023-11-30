@@ -1,10 +1,10 @@
 package com.labs.tenderservice.service;
 
-import com.labs.tenderservice.entity.ID;
 import com.labs.tenderservice.entity.user.User;
 import com.labs.tenderservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,12 +17,11 @@ public class UserService {
     }
 
     public User create(User newUser) {
-        newUser.setId(ID.generateID());
-        return userRepository.add(newUser);
+        return userRepository.create(newUser);
     }
 
     public User getById(long id) {
-        return userRepository.getById(new ID(id));
+        return userRepository.read(id);
     }
 
     public List<User> getAll() {
@@ -33,7 +32,8 @@ public class UserService {
         return userRepository.update(changedUser);
     }
 
+    @Transactional
     public User delete(long id) {
-        return userRepository.delete(new ID(id));
+        return userRepository.delete(id);
     }
 }

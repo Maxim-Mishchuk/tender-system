@@ -1,6 +1,5 @@
 package com.labs.tenderservice.entity.dto;
 
-import com.labs.tenderservice.entity.ID;
 import com.labs.tenderservice.entity.proposition.Proposition;
 import com.labs.tenderservice.entity.tender.Tender;
 import com.labs.tenderservice.entity.tender.TenderUrlConnector;
@@ -11,8 +10,8 @@ import java.util.List;
 
 @Getter
 public class TenderDTO {
-    private final ID id;
-    private final ID userId;
+    private final long id;
+    private final long userId;
     private final String url;
     private final String name;
     private final String description;
@@ -41,9 +40,9 @@ public class TenderDTO {
 
     public static List<TenderDTO> getList(List<Tender> tenderList, List<TenderUrlConnector> tenderUrlConnectorList) {
         return tenderUrlConnectorList.stream()
-                .filter(urlConnector -> tenderList.stream().anyMatch(tender -> tender.getId().equals(urlConnector.getId())))
+                .filter(urlConnector -> tenderList.stream().anyMatch(tender -> tender.getId() == urlConnector.getTenderId()))
                 .map(urlConnector -> {
-                   Tender tender = tenderList.stream().filter(t -> t.getId().equals(urlConnector.getId())).findFirst().get();
+                   Tender tender = tenderList.stream().filter(t -> t.getId() == urlConnector.getTenderId()).findFirst().get();
                    return new TenderDTO(tender, urlConnector);
                 })
                 .toList();
