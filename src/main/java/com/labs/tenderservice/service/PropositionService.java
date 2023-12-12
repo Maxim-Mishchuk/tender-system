@@ -1,6 +1,8 @@
 package com.labs.tenderservice.service;
 
 import com.labs.tenderservice.entity.proposition.Proposition;
+import com.labs.tenderservice.entity.proposition.dto.PropositionCreateDTO;
+import com.labs.tenderservice.entity.proposition.dto.PropositionDTO;
 import com.labs.tenderservice.repository.PropositionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,28 +20,29 @@ public class PropositionService {
         this.propositionRepository = propositionRepository;
     }
 
-    public Proposition create(Proposition newProposition) {
+    public PropositionDTO create(PropositionCreateDTO newProposition) {
+        newProposition.setStatus(Proposition.Status.NEW);
         return propositionRepository.save(newProposition);
     }
 
-    public List<Proposition> getByTenderId(long tenderId) {
+    public List<PropositionDTO> getByTenderId(long tenderId) {
         return propositionRepository.getPropositionsByTenderId(tenderId);
     }
 
-    public Proposition getById(long id) {
+    public PropositionDTO getById(long id) {
         return propositionRepository.getPropositionById(id);
     }
 
-    public List<Proposition> getAllPropositions() {
+    public List<PropositionDTO> getAllPropositions() {
         return propositionRepository.findAll();
     }
 
-    public Proposition update(Proposition updatedProposition) {
+    public PropositionDTO update(PropositionDTO updatedProposition) {
         return propositionRepository.save(updatedProposition);
     }
 
-    public Proposition delete(long id) {
-        Proposition propositionToDelete = getById(id);
+    public PropositionDTO delete(long id) {
+        PropositionDTO propositionToDelete = getById(id);
         propositionRepository.deleteById(id);
         return propositionToDelete;
     }

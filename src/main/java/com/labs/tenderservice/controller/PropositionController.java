@@ -1,6 +1,8 @@
 package com.labs.tenderservice.controller;
 
 import com.labs.tenderservice.entity.proposition.Proposition;
+import com.labs.tenderservice.entity.proposition.dto.PropositionCreateDTO;
+import com.labs.tenderservice.entity.proposition.dto.PropositionDTO;
 import com.labs.tenderservice.service.PropositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,20 +18,20 @@ public class PropositionController {
     PropositionService propositionService;
 
     @PostMapping
-    ResponseEntity<Proposition> create(@RequestBody Proposition newProposition) {
-        Proposition proposition = propositionService.create(newProposition);
+    ResponseEntity<PropositionDTO> create(@RequestBody PropositionCreateDTO newProposition) {
+        PropositionDTO proposition = propositionService.create(newProposition);
         return ResponseEntity.status(HttpStatus.CREATED).body(proposition);
     }
 
     @GetMapping
-    ResponseEntity<Collection<Proposition>> getAllPropositionsByTenderId(long tenderId) {
-        Collection<Proposition> propositions = propositionService.getByTenderId(tenderId);
+    ResponseEntity<Collection<PropositionDTO>> getAllPropositionsByTenderId(long tenderId) {
+        Collection<PropositionDTO> propositions = propositionService.getByTenderId(tenderId);
         return ResponseEntity.ok(propositions);
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Proposition> getPropositionById(@PathVariable("id") long id) {
-        Proposition proposition = propositionService.getById(id);
+    ResponseEntity<PropositionDTO> getPropositionById(@PathVariable("id") long id) {
+        PropositionDTO proposition = propositionService.getById(id);
         if (proposition == null) {
             return ResponseEntity.notFound().build();
         }
@@ -37,8 +39,8 @@ public class PropositionController {
     }
 
     @PutMapping
-    ResponseEntity<Proposition> update(@RequestBody Proposition updatedProposition) {
-        Proposition proposition = propositionService.update(updatedProposition);
+    ResponseEntity<PropositionDTO> update(@RequestBody PropositionDTO updatedProposition) {
+        PropositionDTO proposition = propositionService.update(updatedProposition);
         if (proposition == null) {
             return ResponseEntity.notFound().build();
         }
@@ -46,8 +48,8 @@ public class PropositionController {
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<Proposition> delete(@PathVariable("id") long id) {
-        Proposition proposition = propositionService.delete(id);
+    ResponseEntity<PropositionDTO> delete(@PathVariable("id") long id) {
+        PropositionDTO proposition = propositionService.delete(id);
         if (proposition == null) {
             return ResponseEntity.notFound().build();
         }

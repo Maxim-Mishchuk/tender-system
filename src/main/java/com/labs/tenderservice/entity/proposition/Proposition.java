@@ -30,6 +30,6 @@ public class Proposition{
     }
 
     public enum Status {
-        ACTIVE, APPROVED, DISMISSED
+        NEW, ACTIVE, APPROVED, DISMISSED
     }
 }

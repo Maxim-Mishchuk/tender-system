@@ -1,6 +1,8 @@
 package com.labs.tenderservice.controller;
 
 import com.labs.tenderservice.entity.user.User;
+import com.labs.tenderservice.entity.user.dto.UserCreateDTO;
+import com.labs.tenderservice.entity.user.dto.UserDTO;
 import com.labs.tenderservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,14 +18,14 @@ public class UserController {
     UserService userService;
 
     @PostMapping
-    ResponseEntity<User> create(@RequestBody User newUser) {
-        User user = userService.create(newUser);
+    ResponseEntity<UserDTO> create(@RequestBody UserCreateDTO newUser) {
+        UserDTO user = userService.create(newUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<User> getById(@PathVariable long id) {
-        User user = userService.getById(id);
+    ResponseEntity<UserDTO> getById(@PathVariable long id) {
+        UserDTO user = userService.getById(id);
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
@@ -31,14 +33,14 @@ public class UserController {
     }
 
     @GetMapping
-    ResponseEntity<Collection<User>> getAll() {
-        Collection<User> users = userService.getAll();
+    ResponseEntity<Collection<UserDTO>> getAll() {
+        Collection<UserDTO> users = userService.getAll();
         return ResponseEntity.ok(users);
     }
 
     @PutMapping
-    ResponseEntity<User> update(@RequestBody User updatedUser) {
-        User user = userService.update(updatedUser);
+    ResponseEntity<UserDTO> update(@RequestBody UserDTO updatedUser) {
+        UserDTO user = userService.update(updatedUser);
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
@@ -46,8 +48,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<User> delete(@PathVariable long id) {
-        User user =  userService.delete(id);
+    ResponseEntity<UserDTO> delete(@PathVariable long id) {
+        UserDTO user =  userService.delete(id);
         if (user == null) {
             return ResponseEntity.notFound().build();
         }

@@ -1,11 +1,9 @@
-package com.labs.tenderservice.entity.dto;
+package com.labs.tenderservice.entity.tender.dto;
 
 import com.labs.tenderservice.entity.proposition.Proposition;
 import com.labs.tenderservice.entity.tender.Tender;
 import com.labs.tenderservice.entity.tender.TenderUrlConnector;
-import com.labs.tenderservice.entity.user.User;
 import lombok.Getter;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,7 +11,7 @@ import java.util.List;
 @Getter
 public class TenderDTO {
     private final long id;
-    private final User user;
+    private final long userId;
     private final String url;
     private final String name;
     private final String description;
@@ -22,7 +20,7 @@ public class TenderDTO {
 
     public TenderDTO(Tender tender, TenderUrlConnector tenderUrlConnector, List<Proposition> propositionList) {
         this.id = tender.getId();
-        this.user = tender.getUser();
+        this.userId = tender.getUser().getId();
         this.url = tenderUrlConnector.getUrl();
         this.name = tender.getName();
         this.description = tender.getDescription();
@@ -32,16 +30,13 @@ public class TenderDTO {
 
     public TenderDTO(Tender tender, TenderUrlConnector tenderUrlConnector) {
         this.id = tender.getId();
-        this.user = tender.getUser();
+        this.userId = tender.getUser().getId();
         this.url = tenderUrlConnector.getUrl();
         this.name = tender.getName();
         this.description = tender.getDescription();
         this.status = tender.getStatus();
         this.propositionList = Collections.emptyList();
     }
-
-
-
 
     public static List<TenderDTO> getList(List<Tender> tenderList, List<TenderUrlConnector> tenderUrlConnectorList) {
         return tenderUrlConnectorList.stream()

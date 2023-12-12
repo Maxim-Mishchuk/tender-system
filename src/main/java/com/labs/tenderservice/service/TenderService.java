@@ -1,6 +1,7 @@
 package com.labs.tenderservice.service;
 
-import com.labs.tenderservice.entity.dto.TenderDTO;
+import com.labs.tenderservice.entity.tender.dto.TenderCreateDTO;
+import com.labs.tenderservice.entity.tender.dto.TenderDTO;
 import com.labs.tenderservice.entity.proposition.Proposition;
 import com.labs.tenderservice.entity.tender.Tender;
 import com.labs.tenderservice.entity.tender.TenderUrlConnector;
@@ -13,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
 
 @Service
 @Transactional
@@ -30,15 +29,9 @@ public class TenderService {
         this.propositionRepository = propositionRepository;
     }
 
-    public TenderDTO create(Tender newTender) {
-        System.out.println(newTender.getUser());
-        if (newTender.getStatus() == null) {
-            newTender.setStatus(Tender.Status.ACTIVE);
-        }
-
+    public TenderDTO create(TenderCreateDTO newTender) {
+        newTender.setStatus(Tender.Status.NEW);
         Tender tender = tenderRepository.save(newTender);
-
-
         TenderUrlConnector newTenderUrlConnector = new TenderUrlConnector(
                 System.nanoTime(),
                 tender,
@@ -85,7 +78,7 @@ public class TenderService {
         return tenderUrlRepository.findAll();
     }
 
-    public TenderDTO update(Tender updatedTender) {
+    public TenderDTO update(TenderDTO updatedTender) {
         Tender tender = tenderRepository.save(updatedTender);
         return createTenderDTO(tender);
     }

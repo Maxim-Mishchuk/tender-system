@@ -1,6 +1,8 @@
 package com.labs.tenderservice.service;
 
 import com.labs.tenderservice.entity.user.User;
+import com.labs.tenderservice.entity.user.dto.UserCreateDTO;
+import com.labs.tenderservice.entity.user.dto.UserDTO;
 import com.labs.tenderservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,24 +19,24 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User create(User newUser) {
+    public UserDTO create(UserCreateDTO newUser) {
         return userRepository.save(newUser);
     }
 
-    public User getById(long id) {
+    public UserDTO getById(long id) {
         return userRepository.getUserById(id);
     }
 
-    public List<User> getAll() {
+    public List<UserDTO> getAll() {
         return userRepository.findAll();
     }
 
-    public User update(User changedUser) {
+    public UserDTO update(UserDTO changedUser) {
         return userRepository.save(changedUser);
     }
 
 
-    public User delete(long id) {
+    public UserDTO delete(long id) {
         return userRepository.deleteById(id);
     }
 }
