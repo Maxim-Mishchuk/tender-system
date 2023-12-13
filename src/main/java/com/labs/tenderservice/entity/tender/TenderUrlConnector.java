@@ -3,10 +3,12 @@ package com.labs.tenderservice.entity.tender;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "tender_url_connector")
 @Getter
+@Setter
 public class TenderUrlConnector {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -25,4 +27,5 @@ public class TenderUrlConnector {
         this.tender = tender;
         this.url = url;
     }
+
 }

@@ -5,9 +5,11 @@ import com.labs.tenderservice.entity.tender.dto.TenderDTO;
 import com.labs.tenderservice.entity.proposition.Proposition;
 import com.labs.tenderservice.entity.tender.Tender;
 import com.labs.tenderservice.entity.tender.TenderUrlConnector;
+import com.labs.tenderservice.entity.tender.dto.TenderUrlConnectorDTO;
 import com.labs.tenderservice.repository.PropositionRepository;
 import com.labs.tenderservice.repository.TenderRepository;
 import com.labs.tenderservice.repository.TenderUrlRepository;
+import com.labs.tenderservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,35 +23,43 @@ public class TenderService {
     private final TenderRepository tenderRepository;
     private final TenderUrlRepository tenderUrlRepository;
     private final PropositionRepository propositionRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public TenderService(TenderRepository tenderRepository, TenderUrlRepository tenderUrlRepository, PropositionRepository propositionRepository) {
+    public TenderService(TenderRepository tenderRepository, TenderUrlRepository tenderUrlRepository, PropositionRepository propositionRepository, UserRepository userRepository) {
         this.tenderRepository = tenderRepository;
         this.tenderUrlRepository = tenderUrlRepository;
         this.propositionRepository = propositionRepository;
+        this.userRepository = userRepository;
     }
 
     public TenderDTO create(TenderCreateDTO newTender) {
-        newTender.setStatus(Tender.Status.NEW);
-        Tender tender = tenderRepository.save(newTender);
-        TenderUrlConnector newTenderUrlConnector = new TenderUrlConnector(
-                System.nanoTime(),
-                tender,
-                String.valueOf(tender.getId())
-        );
+        newTender.setStatus(Tender.Status.CLOSED);
+        Tender tender = new Tender(
+                userRepository.getUserById(newTender.getUserId()),
+                newTender.getName(),
+                newTender.getDescription(),
+                newTender.getStatus()
+                );
 
-        TenderUrlConnector tenderUrlConnector = tenderUrlRepository.save(newTenderUrlConnector);
-        System.out.println(tenderUrlConnector);
-        return new TenderDTO(tender, tenderUrlConnector);
+
+        TenderUrlConnector newTenderUrlConnector = new TenderUrlConnector();
+        tender.setTenderUrlConnector(newTenderUrlConnector);
+        Tender tender1 = tenderRepository.save(tender);
+
+        return new TenderDTO(tender, tender.getTenderUrlConnector());
     }
 
-    public TenderUrlConnector updateUrl(TenderUrlConnector updatedTenderUrlConnector) {
-        return tenderUrlRepository.save(updatedTenderUrlConnector);
+    public TenderUrlConnectorDTO updateUrl(TenderUrlConnectorDTO updatedTenderUrlConnector) {
+        TenderUrlConnector tenderUrlConnector =
+                tenderUrlRepository.getTenderUrlConnectorByTenderId(updatedTenderUrlConnector.getTenderId());
+                tenderUrlConnector.setUrl(updatedTenderUrlConnector.getUrl());
+        return createTenderUrlConnectorDTO(tenderUrlRepository.save(tenderUrlConnector));
     }
 
     public List<TenderDTO> getAll() {
-        List<Tender>tenders= tenderRepository.findAll();
-        for(Tender tender: tenders){
+        List<Tender> tenders = tenderRepository.findAll();
+        for (Tender tender : tenders) {
             System.out.println(tender.getTenderUrlConnector());
         }
         return createTenderDTOList(tenders);
@@ -79,12 +89,16 @@ public class TenderService {
     }
 
     public TenderDTO update(TenderDTO updatedTender) {
-        Tender tender = tenderRepository.save(updatedTender);
+        Tender tender = tenderRepository.getTenderById(updatedTender.getId());
+        tender.setStatus(updatedTender.getStatus());
+        tender.setDescription(updatedTender.getDescription());
+        tender.setName(updatedTender.getName());
+        tenderRepository.save(tender);
         return createTenderDTO(tender);
     }
 
     public TenderDTO delete(long id) {
-        List<Proposition>  propositions = propositionRepository.deletePropositionsByTenderId(id);
+        List<Proposition> propositions = propositionRepository.deletePropositionsByTenderId(id);
         Tender tender = tenderRepository.getReferenceById(id);
         TenderUrlConnector tenderUrlConnector = tender.getTenderUrlConnector();
         tenderUrlRepository.delete(tender.getTenderUrlConnector());
@@ -106,10 +120,16 @@ public class TenderService {
     }
 
 
-
     private TenderDTO createTenderDTO(Tender tender) {
-        TenderUrlConnector tenderUrlConnector = tenderUrlRepository.getReferenceById(tender.getId());
+        TenderUrlConnector tenderUrlConnector = tenderUrlRepository.getTenderUrlConnectorByTenderId(tender.getId());
         List<Proposition> propositions = propositionRepository.getPropositionsByTenderId(tender.getId());
         return new TenderDTO(tender, tenderUrlConnector, propositions);
+    }
+
+    private TenderUrlConnectorDTO createTenderUrlConnectorDTO(TenderUrlConnector tenderUrlConnector){
+        return new TenderUrlConnectorDTO(
+                tenderUrlConnector.getTender().getId(),
+                tenderUrlConnector.getUrl()
+        );
     }
 }

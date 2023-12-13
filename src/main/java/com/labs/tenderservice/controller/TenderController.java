@@ -4,6 +4,7 @@ import com.labs.tenderservice.entity.tender.dto.TenderCreateDTO;
 import com.labs.tenderservice.entity.tender.dto.TenderDTO;
 import com.labs.tenderservice.entity.tender.Tender;
 import com.labs.tenderservice.entity.tender.TenderUrlConnector;
+import com.labs.tenderservice.entity.tender.dto.TenderUrlConnectorDTO;
 import com.labs.tenderservice.service.TenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,9 +26,9 @@ public class TenderController {
     }
 
     @PutMapping("/tenderUrl")
-    ResponseEntity<TenderUrlConnector> updateUrl(@RequestBody TenderUrlConnector tenderUrlConnector) {
-        TenderUrlConnector url = tenderService.updateUrl(tenderUrlConnector);
-        return ResponseEntity.ok(url);
+    ResponseEntity<TenderUrlConnectorDTO> updateUrl(@RequestBody TenderUrlConnectorDTO tenderUrlConnector) {
+        TenderUrlConnectorDTO tenderUrlConnectorDTO = tenderService.updateUrl(tenderUrlConnector);
+        return ResponseEntity.ok(tenderUrlConnectorDTO);
     }
 
     @GetMapping

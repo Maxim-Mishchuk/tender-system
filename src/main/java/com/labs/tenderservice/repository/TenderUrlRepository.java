@@ -9,5 +9,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface TenderUrlRepository extends JpaRepository<TenderUrlConnector, Long> {
     @Query("select t.tender from TenderUrlConnector t where t.url=?1")
     Tender getTenderByUrl(String URL);
-    TenderUrlConnector getTenderUrlConnectorById(long id);
+    TenderUrlConnector getTenderUrlConnectorByTenderId(long id);
+    TenderUrlConnector getTenderUrlConnectorsByUrl(String url);
 }

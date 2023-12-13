@@ -5,18 +5,19 @@ import com.labs.tenderservice.entity.tender.Tender;
 import com.labs.tenderservice.entity.tender.TenderUrlConnector;
 import lombok.Getter;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class TenderDTO {
-    private final long id;
-    private final long userId;
-    private final String url;
-    private final String name;
-    private final String description;
-    private final Tender.Status status;
-    private final List<Proposition> propositionList;
+public class TenderDTO implements Serializable {
+    private  long id;
+    private  long userId;
+    private  String url;
+    private  String name;
+    private  String description;
+    private  Tender.Status status;
+    private  List<Proposition> propositionList;
 
     public TenderDTO(Tender tender, TenderUrlConnector tenderUrlConnector, List<Proposition> propositionList) {
         this.id = tender.getId();
@@ -46,5 +47,8 @@ public class TenderDTO {
                    return new TenderDTO(tender, urlConnector);
                 })
                 .toList();
+    }
+
+    public TenderDTO() {
     }
 }

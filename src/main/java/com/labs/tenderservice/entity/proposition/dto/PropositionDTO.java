@@ -3,9 +3,11 @@ package com.labs.tenderservice.entity.proposition.dto;
 import com.labs.tenderservice.entity.proposition.Proposition;
 import lombok.Data;
 
+import java.io.Serializable;
+
 
 @Data
-public class PropositionDTO {
+public class PropositionDTO implements Serializable {
     private final long id;
     private final long tenderId;
     private final String name;

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.labs.tenderservice.entity.tender.Tender;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -19,4 +21,17 @@ public class User {
     @OneToMany(mappedBy = "user",cascade=CascadeType.ALL )
     List<Tender>tenders;
 
+    public User(String username) {
+        this.id = System.nanoTime();
+        this.username = username;
+    }
+
+    public User(long id, String username) {
+        this.id = id;
+        this.username = username;
+    }
+
+    public User() {
+
+    }
 }
