@@ -6,10 +6,12 @@ import com.labs.tenderservice.entity.proposition.Proposition;
 import com.labs.tenderservice.entity.tender.Tender;
 import com.labs.tenderservice.entity.tender.TenderUrlConnector;
 import com.labs.tenderservice.entity.tender.dto.TenderUrlConnectorDTO;
+import com.labs.tenderservice.exception.ResourceNotFoundException;
 import com.labs.tenderservice.repository.PropositionRepository;
 import com.labs.tenderservice.repository.TenderRepository;
 import com.labs.tenderservice.repository.TenderUrlRepository;
 import com.labs.tenderservice.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,7 +54,10 @@ public class TenderService {
     public TenderUrlConnectorDTO updateUrl(TenderUrlConnectorDTO updatedTenderUrlConnector) {
         TenderUrlConnector tenderUrlConnector =
                 tenderUrlRepository.getTenderUrlConnectorByTenderId(updatedTenderUrlConnector.getTenderId());
-                tenderUrlConnector.setUrl(updatedTenderUrlConnector.getUrl());
+        if (tenderUrlConnector == null) {
+            throw new ResourceNotFoundException("Tender not found");
+        }
+        tenderUrlConnector.setUrl(updatedTenderUrlConnector.getUrl());
         return createTenderUrlConnectorDTO(tenderUrlRepository.save(tenderUrlConnector));
     }
 
@@ -70,17 +75,20 @@ public class TenderService {
     }
 
     public TenderDTO getById(long id) {
-        Tender tender = tenderRepository.getReferenceById(id);
+        Tender tender = tenderRepository.getTenderById(id);
+        checkOnNull(tender);
         return TenderDTO.getDTO(tender);
     }
 
     public TenderDTO getTenderByURL(String url) {
         Tender tender = tenderUrlRepository.getTenderByUrl(url);
+        checkOnNull(tender);
         return getById(tender.getId());
     }
 
     public TenderDTO update(TenderDTO updatedTender) {
         Tender tender = tenderRepository.getTenderById(updatedTender.getId());
+        checkOnNull(tender);
         tender.setStatus(updatedTender.getStatus());
         tender.setDescription(updatedTender.getDescription());
         tender.setName(updatedTender.getName());
@@ -89,9 +97,9 @@ public class TenderService {
     }
 
     public TenderDTO delete(long id) {
-        List<Proposition> propositions = propositionRepository.deletePropositionsByTenderId(id);
-        Tender tender = tenderRepository.getReferenceById(id);
-        TenderUrlConnector tenderUrlConnector = tender.getTenderUrlConnector();
+        Tender tender = tenderRepository.getTenderById(id);
+        checkOnNull(tender);
+        propositionRepository.deletePropositionsByTenderId(id);
         tenderUrlRepository.delete(tender.getTenderUrlConnector());
         tenderRepository.delete(tender);
 
@@ -103,5 +111,11 @@ public class TenderService {
                 tenderUrlConnector.getTender().getId(),
                 tenderUrlConnector.getUrl()
         );
+    }
+
+    private void checkOnNull(Tender tender) {
+        if (tender == null) {
+            throw new ResourceNotFoundException("Tender not found");
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.labs.tenderservice.service;
 import com.labs.tenderservice.entity.proposition.Proposition;
 import com.labs.tenderservice.entity.proposition.dto.PropositionCreateDTO;
 import com.labs.tenderservice.entity.proposition.dto.PropositionDTO;
+import com.labs.tenderservice.exception.ResourceNotFoundException;
 import com.labs.tenderservice.repository.PropositionRepository;
 import com.labs.tenderservice.repository.TenderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,8 @@ public class PropositionService {
     }
 
     public PropositionDTO getById(long id) {
+        Proposition proposition = propositionRepository.getPropositionById(id);
+        checkOnNull(proposition);
         return PropositionDTO.getDTO(propositionRepository.getPropositionById(id));
     }
 
@@ -50,6 +53,7 @@ public class PropositionService {
 
     public PropositionDTO update(PropositionDTO updatedProposition) {
         Proposition proposition = propositionRepository.getPropositionById(updatedProposition.getId());
+        checkOnNull(proposition);
         proposition.setName(updatedProposition.getName());
         proposition.setDescription(updatedProposition.getDescription());
         proposition.setCurrency(updatedProposition.getCurrency());
@@ -62,5 +66,11 @@ public class PropositionService {
         PropositionDTO propositionToDelete = getById(id);
         propositionRepository.deleteById(id);
         return propositionToDelete;
+    }
+
+    private void checkOnNull(Proposition proposition) {
+        if (proposition == null) {
+            throw new ResourceNotFoundException("Proposition not found");
+        }
     }
 }

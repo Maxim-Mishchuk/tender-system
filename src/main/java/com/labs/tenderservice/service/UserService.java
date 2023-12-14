@@ -3,6 +3,7 @@ package com.labs.tenderservice.service;
 import com.labs.tenderservice.entity.user.User;
 import com.labs.tenderservice.entity.user.dto.UserCreateDTO;
 import com.labs.tenderservice.entity.user.dto.UserDTO;
+import com.labs.tenderservice.exception.ResourceNotFoundException;
 import com.labs.tenderservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,8 @@ public class UserService {
     }
 
     public UserDTO getById(long id) {
+        User user = userRepository.getUserById(id);
+        checkOnNull(user);
         return UserDTO.getDTO(userRepository.getUserById(id));
     }
 
@@ -39,6 +42,7 @@ public class UserService {
 
     public UserDTO update(UserDTO changedUser) {
         User user = userRepository.getUserById(changedUser.getId());
+        checkOnNull(user);
         user.setUsername(changedUser.getUsername());
         return UserDTO.getDTO(userRepository.save(user));
     }
@@ -47,5 +51,11 @@ public class UserService {
         UserDTO user = getById(id);
         userRepository.deleteById(id);
         return user;
+    }
+
+    private void checkOnNull(User user) {
+        if (user == null) {
+            throw new ResourceNotFoundException("User not found");
+        }
     }
 }
