@@ -26,7 +26,7 @@ public class UserService {
                 newUser.getUsername()
         );
         user = userRepository.save(user);
-        return UserDTO.getDTO(user);
+        return UserDTO.getBasicDTO(user);
     }
 
     public UserDTO getById(long id) {

@@ -35,20 +35,22 @@ public class TenderService {
     }
 
     public TenderDTO create(TenderCreateDTO newTender) {
-        newTender.setStatus(Tender.Status.CLOSED);
         Tender tender = new Tender(
                 userRepository.getUserById(newTender.getUserId()),
                 newTender.getName(),
                 newTender.getDescription(),
-                newTender.getStatus()
-                );
+                Tender.Status.NEW
+        );
 
+        if (tender.getUser() == null) {
+            throw new ResourceNotFoundException("User not found");
+        }
 
         TenderUrlConnector newTenderUrlConnector = new TenderUrlConnector();
         tender.setTenderUrlConnector(newTenderUrlConnector);
         tender = tenderRepository.save(tender);
 
-        return TenderDTO.getDTO(tender);
+        return TenderDTO.getBasicDTO(tender);
     }
 
     public TenderUrlConnectorDTO updateUrl(TenderUrlConnectorDTO updatedTenderUrlConnector) {

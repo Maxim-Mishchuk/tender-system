@@ -13,6 +13,4 @@ public class TenderCreateDTO {
     @NotBlank
     private final String name;
     private final String description;
-    @NotNull
-    private Tender.Status status;
 }
