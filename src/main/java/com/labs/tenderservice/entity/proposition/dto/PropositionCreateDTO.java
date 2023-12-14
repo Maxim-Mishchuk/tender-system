@@ -17,6 +17,4 @@ public class PropositionCreateDTO {
     private final double price;
     @NotNull
     private final Proposition.Currency currency;
-    @NotNull
-    private Proposition.Status status;
 }

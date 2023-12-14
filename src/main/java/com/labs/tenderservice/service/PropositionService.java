@@ -25,15 +25,17 @@ public class PropositionService {
     }
 
     public PropositionDTO create(PropositionCreateDTO newProposition) {
-        newProposition.setStatus(Proposition.Status.ACTIVE);
         Proposition proposition = new Proposition(
                 tenderRepository.getTenderById(newProposition.getTenderId()),
                 newProposition.getName(),
                 newProposition.getDescription(),
                 newProposition.getPrice(),
                 newProposition.getCurrency(),
-                newProposition.getStatus()
+                Proposition.Status.NEW
         );
+        if (proposition.getTender() == null) {
+            throw new ResourceNotFoundException("Tender not found");
+        }
         return PropositionDTO.getDTO(propositionRepository.save(proposition));
     }
 

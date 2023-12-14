@@ -1,8 +1,6 @@
 package com.labs.tenderservice.entity.tender.dto;
 
-import com.labs.tenderservice.entity.tender.Tender;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
@@ -13,6 +11,4 @@ public class TenderCreateDTO {
     @NotBlank
     private final String name;
     private final String description;
-    @NotNull
-    private Tender.Status status;
 }

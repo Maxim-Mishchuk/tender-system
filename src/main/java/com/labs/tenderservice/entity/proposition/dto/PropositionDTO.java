@@ -1,9 +1,6 @@
 package com.labs.tenderservice.entity.proposition.dto;
 
 import com.labs.tenderservice.entity.proposition.Proposition;
-import com.labs.tenderservice.entity.tender.Tender;
-import com.labs.tenderservice.entity.tender.TenderUrlConnector;
-import com.labs.tenderservice.entity.tender.dto.TenderDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
