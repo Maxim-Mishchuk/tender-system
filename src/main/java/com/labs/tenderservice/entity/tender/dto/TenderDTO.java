@@ -1,54 +1,58 @@
 package com.labs.tenderservice.entity.tender.dto;
 
-import com.labs.tenderservice.entity.proposition.Proposition;
+import com.labs.tenderservice.entity.proposition.dto.PropositionDTO;
 import com.labs.tenderservice.entity.tender.Tender;
-import com.labs.tenderservice.entity.tender.TenderUrlConnector;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.PositiveOrZero;
+import lombok.Data;
 import lombok.Getter;
 
-import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 
-@Getter
-public class TenderDTO implements Serializable {
-    private  long id;
-    private  long userId;
-    private  String url;
-    private  String name;
-    private  String description;
-    private  Tender.Status status;
-    private  List<Proposition> propositionList;
+@Data
+public class TenderDTO {
+    @PositiveOrZero
+    private final long id;
+    @PositiveOrZero
+    private final long userId;
+    @Pattern(regexp = "\\w+]")
+    private final String url;
+    @NotBlank
+    private final String name;
+    private final String description;
+    @NotNull
+    private final Tender.Status status;
+    private final List<PropositionDTO> propositionList;
 
-    public TenderDTO(Tender tender, TenderUrlConnector tenderUrlConnector, List<Proposition> propositionList) {
-        this.id = tender.getId();
-        this.userId = tender.getUser().getId();
-        this.url = tenderUrlConnector.getUrl();
-        this.name = tender.getName();
-        this.description = tender.getDescription();
-        this.status = tender.getStatus();
-        this.propositionList = propositionList;
+    public static TenderDTO getDTO(Tender tender) {
+        return new TenderDTO(
+                tender.getId(),
+                tender.getUser().getId(),
+                tender.getTenderUrlConnector().getUrl(),
+                tender.getName(),
+                tender.getDescription(),
+                tender.getStatus(),
+                PropositionDTO.getList(tender.getPropositionList())
+        );
     }
 
-    public TenderDTO(Tender tender, TenderUrlConnector tenderUrlConnector) {
-        this.id = tender.getId();
-        this.userId = tender.getUser().getId();
-        this.url = tenderUrlConnector.getUrl();
-        this.name = tender.getName();
-        this.description = tender.getDescription();
-        this.status = tender.getStatus();
-        this.propositionList = Collections.emptyList();
+    public static TenderDTO getBasicDTO(Tender tender) {
+        return new TenderDTO(
+                tender.getId(),
+                tender.getUser().getId(),
+                tender.getTenderUrlConnector().getUrl(),
+                tender.getName(),
+                tender.getDescription(),
+                tender.getStatus(),
+                null
+        );
     }
 
-    public static List<TenderDTO> getList(List<Tender> tenderList, List<TenderUrlConnector> tenderUrlConnectorList) {
-        return tenderUrlConnectorList.stream()
-                .filter(urlConnector -> tenderList.stream().anyMatch(tender -> tender.getId() == urlConnector.getTender().getId()))
-                .map(urlConnector -> {
-                   Tender tender = tenderList.stream().filter(t -> t.getId() == urlConnector.getTender().getId()).findFirst().get();
-                   return new TenderDTO(tender, urlConnector);
-                })
+    public static List<TenderDTO> getList(List<Tender> tenderList) {
+        return tenderList.stream()
+                .map(TenderDTO::getBasicDTO)
                 .toList();
-    }
-
-    public TenderDTO() {
     }
 }

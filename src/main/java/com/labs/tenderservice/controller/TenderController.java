@@ -2,10 +2,9 @@ package com.labs.tenderservice.controller;
 
 import com.labs.tenderservice.entity.tender.dto.TenderCreateDTO;
 import com.labs.tenderservice.entity.tender.dto.TenderDTO;
-import com.labs.tenderservice.entity.tender.Tender;
-import com.labs.tenderservice.entity.tender.TenderUrlConnector;
 import com.labs.tenderservice.entity.tender.dto.TenderUrlConnectorDTO;
 import com.labs.tenderservice.service.TenderService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +19,13 @@ public class TenderController {
     TenderService tenderService;
 
     @PostMapping
-    ResponseEntity<TenderDTO> create(@RequestBody TenderCreateDTO newTender) {
+    ResponseEntity<TenderDTO> create(@RequestBody @Valid TenderCreateDTO newTender) {
         TenderDTO tender = tenderService.create(newTender);
         return ResponseEntity.status(HttpStatus.CREATED).body(tender);
     }
 
     @PutMapping("/tenderUrl")
-    ResponseEntity<TenderUrlConnectorDTO> updateUrl(@RequestBody TenderUrlConnectorDTO tenderUrlConnector) {
+    ResponseEntity<TenderUrlConnectorDTO> updateUrl(@RequestBody @Valid TenderUrlConnectorDTO tenderUrlConnector) {
         TenderUrlConnectorDTO tenderUrlConnectorDTO = tenderService.updateUrl(tenderUrlConnector);
         return ResponseEntity.ok(tenderUrlConnectorDTO);
     }
@@ -59,7 +58,7 @@ public class TenderController {
     }
 
     @PutMapping
-    ResponseEntity<TenderDTO> update(@RequestBody TenderDTO updatedTender) {
+    ResponseEntity<TenderDTO> update(@RequestBody @Valid TenderDTO updatedTender) {
         TenderDTO tenderDTO = tenderService.update(updatedTender);
         if (tenderDTO == null) {
             return ResponseEntity.notFound().build();

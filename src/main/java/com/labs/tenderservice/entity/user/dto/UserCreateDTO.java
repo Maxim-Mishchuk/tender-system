@@ -1,12 +1,14 @@
 package com.labs.tenderservice.entity.user.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 @Data
-public class UserCreateDTO implements Serializable {
+public class UserCreateDTO {
+
+    @NotBlank
+    @Pattern(regexp = "\\w+")
     private  String username;
 
     public UserCreateDTO() {

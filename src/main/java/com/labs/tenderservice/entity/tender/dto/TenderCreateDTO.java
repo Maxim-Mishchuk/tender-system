@@ -1,14 +1,18 @@
 package com.labs.tenderservice.entity.tender.dto;
 
 import com.labs.tenderservice.entity.tender.Tender;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
-import java.io.Serializable;
-
 @Data
-public class TenderCreateDTO implements Serializable {
+public class TenderCreateDTO {
+    @PositiveOrZero
     private final long userId;
+    @NotBlank
     private final String name;
     private final String description;
+    @NotNull
     private Tender.Status status;
 }

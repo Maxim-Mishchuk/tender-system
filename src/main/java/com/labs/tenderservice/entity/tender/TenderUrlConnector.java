@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@NamedQuery(name = "TenderUrlConnector.getTenderUrlConnectorByTenderId", query = "select t from TenderUrlConnector t where t.tender.id=?1")
 @Table(name = "tender_url_connector")
 @Getter
 @Setter

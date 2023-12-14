@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,45 +24,28 @@ public class UserService {
         User user = new User(
                 newUser.getUsername()
         );
-        User user1 = userRepository.save(user);
-        return createUserDTO(user1);
+        user = userRepository.save(user);
+        return UserDTO.getDTO(user);
     }
 
     public UserDTO getById(long id) {
-        return createUserDTO(userRepository.getUserById(id));
+        return UserDTO.getDTO(userRepository.getUserById(id));
     }
 
     public List<UserDTO> getAll() {
-        List<User>userList = userRepository.findAll();
-        return createListOFUserDTO(userList);
+        List<User> userList = userRepository.findAll();
+        return UserDTO.getList(userList);
     }
 
     public UserDTO update(UserDTO changedUser) {
         User user = userRepository.getUserById(changedUser.getId());
         user.setUsername(changedUser.getUsername());
-        return createUserDTO(userRepository.save(user));
+        return UserDTO.getDTO(userRepository.save(user));
     }
-
 
     public UserDTO delete(long id) {
         UserDTO user = getById(id);
-
         userRepository.deleteById(id);
         return user;
-    }
-
-    private UserDTO createUserDTO(User user) {
-        return new UserDTO(
-                user.getId(),
-                user.getUsername(),
-                user.getTenders()
-        );
-    }
-    private  List<UserDTO> createListOFUserDTO(List<User>userList){
-        List<UserDTO> listOfUsersDTO = new ArrayList<>();
-        for(User user: userList){
-            listOfUsersDTO.add(createUserDTO(user));
-        }
-        return listOfUsersDTO;
     }
 }
