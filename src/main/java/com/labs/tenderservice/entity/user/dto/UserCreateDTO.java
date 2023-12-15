@@ -10,7 +10,11 @@ public class UserCreateDTO {
     @NotBlank
     @Pattern(regexp = "\\w+")
     private  String username;
-
-    public UserCreateDTO() {
-    }
 }
+
+
+
+
+
+
+

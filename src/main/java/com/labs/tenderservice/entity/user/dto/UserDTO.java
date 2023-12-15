@@ -3,6 +3,7 @@ package com.labs.tenderservice.entity.user.dto;
 import com.labs.tenderservice.entity.tender.dto.TenderDTO;
 import com.labs.tenderservice.entity.user.User;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
@@ -15,6 +16,7 @@ public class UserDTO {
     @PositiveOrZero
     private final long id;
     @NotBlank
+    @Pattern(regexp = "\\w+")
     private final String username;
     private final List<TenderDTO> tenderList;
 

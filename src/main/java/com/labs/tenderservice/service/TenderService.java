@@ -2,16 +2,13 @@ package com.labs.tenderservice.service;
 
 import com.labs.tenderservice.entity.tender.dto.TenderCreateDTO;
 import com.labs.tenderservice.entity.tender.dto.TenderDTO;
-import com.labs.tenderservice.entity.proposition.Proposition;
 import com.labs.tenderservice.entity.tender.Tender;
 import com.labs.tenderservice.entity.tender.TenderUrlConnector;
 import com.labs.tenderservice.entity.tender.dto.TenderUrlConnectorDTO;
 import com.labs.tenderservice.exception.ResourceNotFoundException;
-import com.labs.tenderservice.repository.PropositionRepository;
 import com.labs.tenderservice.repository.TenderRepository;
 import com.labs.tenderservice.repository.TenderUrlRepository;
 import com.labs.tenderservice.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,14 +20,12 @@ import java.util.List;
 public class TenderService {
     private final TenderRepository tenderRepository;
     private final TenderUrlRepository tenderUrlRepository;
-    private final PropositionRepository propositionRepository;
     private final UserRepository userRepository;
 
     @Autowired
-    public TenderService(TenderRepository tenderRepository, TenderUrlRepository tenderUrlRepository, PropositionRepository propositionRepository, UserRepository userRepository) {
+    public TenderService(TenderRepository tenderRepository, TenderUrlRepository tenderUrlRepository, UserRepository userRepository) {
         this.tenderRepository = tenderRepository;
         this.tenderUrlRepository = tenderUrlRepository;
-        this.propositionRepository = propositionRepository;
         this.userRepository = userRepository;
     }
 
@@ -101,8 +96,6 @@ public class TenderService {
     public TenderDTO delete(long id) {
         Tender tender = tenderRepository.getTenderById(id);
         checkOnNull(tender);
-        propositionRepository.deletePropositionsByTenderId(id);
-        tenderUrlRepository.delete(tender.getTenderUrlConnector());
         tenderRepository.delete(tender);
 
         return TenderDTO.getDTO(tender);

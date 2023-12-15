@@ -1,13 +1,10 @@
 package com.labs.tenderservice.entity.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.labs.tenderservice.entity.tender.Tender;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
