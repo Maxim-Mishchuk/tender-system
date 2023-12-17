@@ -1,9 +1,13 @@
 package com.labs.tenderservice.controller;
 
-import com.labs.tenderservice.entity.dto.TenderDTO;
-import com.labs.tenderservice.entity.tender.Tender;
-import com.labs.tenderservice.entity.tender.TenderUrlConnector;
+import com.labs.tenderservice.entity.tender.dto.TenderCreateDTO;
+import com.labs.tenderservice.entity.tender.dto.TenderDTO;
+import com.labs.tenderservice.entity.tender.dto.TenderUrlConnectorDTO;
 import com.labs.tenderservice.service.TenderService;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +22,24 @@ public class TenderController {
     TenderService tenderService;
 
     @PostMapping
-    ResponseEntity<TenderDTO> create(@RequestBody Tender newTender) {
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Created"),
+            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content)
+    })
+    ResponseEntity<TenderDTO> create(@RequestBody @Valid TenderCreateDTO newTender) {
         TenderDTO tender = tenderService.create(newTender);
         return ResponseEntity.status(HttpStatus.CREATED).body(tender);
     }
 
     @PutMapping("/tenderUrl")
-    ResponseEntity<TenderUrlConnector> updateUrl(@RequestBody TenderUrlConnector tenderUrlConnector) {
-        TenderUrlConnector url = tenderService.updateUrl(tenderUrlConnector);
-        return ResponseEntity.ok(url);
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Ok"),
+            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+    })
+    ResponseEntity<TenderUrlConnectorDTO> updateUrl(@RequestBody @Valid TenderUrlConnectorDTO tenderUrlConnector) {
+        TenderUrlConnectorDTO tenderUrlConnectorDTO = tenderService.updateUrl(tenderUrlConnector);
+        return ResponseEntity.ok(tenderUrlConnectorDTO);
     }
 
     @GetMapping
@@ -48,6 +61,10 @@ public class TenderController {
     }
 
     @GetMapping("/{tenderUrl}")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Ok"),
+            @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+    })
     ResponseEntity<TenderDTO> findTenderByURL(@PathVariable("tenderUrl") String tenderUrl) {
         TenderDTO tender = tenderService.getTenderByURL(tenderUrl);
         if (tender == null) {
@@ -57,7 +74,12 @@ public class TenderController {
     }
 
     @PutMapping
-    ResponseEntity<TenderDTO> update(@RequestBody Tender updatedTender) {
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Ok"),
+            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+    })
+    ResponseEntity<TenderDTO> update(@RequestBody @Valid TenderDTO updatedTender) {
         TenderDTO tenderDTO = tenderService.update(updatedTender);
         if (tenderDTO == null) {
             return ResponseEntity.notFound().build();
@@ -66,6 +88,10 @@ public class TenderController {
     }
 
     @DeleteMapping("/{id}")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Ok"),
+            @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
+    })
     ResponseEntity<TenderDTO> delete(@PathVariable("id") long id) {
         TenderDTO tender = tenderService.delete(id);
         if (tender == null) {
